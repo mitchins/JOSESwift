@@ -71,14 +71,19 @@ class AESCBCContentEncryptionTests: XCTestCase {
             symmetricEncryptionContext.ciphertext.withUnsafeBytes { dataBytes in
                 symmetricEncryptionContext.initializationVector.withUnsafeBytes { ivBytes in
                     encryptionKey.withUnsafeBytes { keyBytes in
-                        CCCrypt(CCOperation(kCCDecrypt),
-                                CCAlgorithm(kCCAlgorithmAES128),
-                                options,
-                                keyBytes.baseAddress!, keyLength,
-                                ivBytes.baseAddress!,
-                                dataBytes.baseAddress!, dataLength,
-                                cryptBytes.baseAddress!, cryptLength,
-                                &numBytesEncrypted)
+                        CCCrypt(
+                            CCOperation(kCCDecrypt),
+                            CCAlgorithm(kCCAlgorithmAES128),
+                            options,
+                            keyBytes.baseAddress!,
+                            keyLength,
+                            ivBytes.baseAddress!,
+                            dataBytes.baseAddress!,
+                            dataLength,
+                            cryptBytes.baseAddress!,
+                            cryptLength,
+                            &numBytesEncrypted
+                        )
                     }
                 }
             }
@@ -145,14 +150,19 @@ class AESCBCContentEncryptionTests: XCTestCase {
             symmetricEncryptionContext.ciphertext.withUnsafeBytes { dataBytes in
                 symmetricEncryptionContext.initializationVector.withUnsafeBytes { ivBytes in
                     encryptionKey.withUnsafeBytes { keyBytes in
-                        CCCrypt(CCOperation(kCCDecrypt),
-                                CCAlgorithm(kCCAlgorithmAES128),
-                                options,
-                                keyBytes.baseAddress!, keyLength,
-                                ivBytes.baseAddress!,
-                                dataBytes.baseAddress!, dataLength,
-                                cryptBytes.baseAddress!, cryptLength,
-                                &numBytesEncrypted)
+                        CCCrypt(
+                            CCOperation(kCCDecrypt),
+                            CCAlgorithm(kCCAlgorithmAES128),
+                            options,
+                            keyBytes.baseAddress!,
+                            keyLength,
+                            ivBytes.baseAddress!,
+                            dataBytes.baseAddress!,
+                            dataLength,
+                            cryptBytes.baseAddress!,
+                            cryptLength,
+                            &numBytesEncrypted
+                        )
                     }
                 }
             }
@@ -215,14 +225,19 @@ class AESCBCContentEncryptionTests: XCTestCase {
             symmetricEncryptionContext.ciphertext.withUnsafeBytes { dataBytes in
                 symmetricEncryptionContext.initializationVector.withUnsafeBytes { ivBytes in
                     encryptionKey.withUnsafeBytes { keyBytes in
-                        CCCrypt(CCOperation(kCCDecrypt),
-                                CCAlgorithm(kCCAlgorithmAES128),
-                                options,
-                                keyBytes.baseAddress!, keyLength,
-                                ivBytes.baseAddress!,
-                                dataBytes.baseAddress!, dataLength,
-                                cryptBytes.baseAddress!, cryptLength,
-                                &numBytesEncrypted)
+                        CCCrypt(
+                            CCOperation(kCCDecrypt),
+                            CCAlgorithm(kCCAlgorithmAES128),
+                            options,
+                            keyBytes.baseAddress!,
+                            keyLength,
+                            ivBytes.baseAddress!,
+                            dataBytes.baseAddress!,
+                            dataLength,
+                            cryptBytes.baseAddress!,
+                            cryptLength,
+                            &numBytesEncrypted
+                        )
                     }
                 }
             }

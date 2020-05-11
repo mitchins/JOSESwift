@@ -242,14 +242,19 @@ extension AES {
             data.withUnsafeBytes { dataBytes in
                 initializationVector.withUnsafeBytes { ivBytes in
                     key.withUnsafeBytes { keyBytes -> Int32 in
-                        CCCrypt(operation,
-                                algorithm,
-                                padding,
-                                keyBytes.baseAddress!, keyLength,
-                                ivBytes.baseAddress!,
-                                dataBytes.baseAddress!, dataLength,
-                                cryptBytes.baseAddress!, cryptLength,
-                                &numBytesCrypted)
+                        CCCrypt(
+                            operation,
+                            algorithm,
+                            padding,
+                            keyBytes.baseAddress!,
+                            keyLength,
+                            ivBytes.baseAddress!,
+                            dataBytes.baseAddress!,
+                            dataLength,
+                            cryptBytes.baseAddress!,
+                            cryptLength,
+                            &numBytesCrypted
+                        )
                     }
                 }
             }
