@@ -53,11 +53,11 @@ extension ECPublicKey: Decodable {
         // The key type parameter is required.
         guard try commonParameters.decode(String.self, forKey: .keyType) == JWKKeyType.EC.rawValue else {
             throw DecodingError.keyNotFound(
-                    JWKParameter.keyType,
-                    DecodingError.Context.init(
-                            codingPath: [JWKParameter.keyType],
-                            debugDescription: "Key Type parameter wrong."
-                    )
+                JWKParameter.keyType,
+                DecodingError.Context(
+                    codingPath: [JWKParameter.keyType],
+                    debugDescription: "Key Type parameter wrong."
+                )
             )
         }
 
@@ -74,10 +74,10 @@ extension ECPublicKey: Decodable {
         let y = try ecParameters.decode(String.self, forKey: .y)
 
         self.init(
-                crv: crv,
-                x: x,
-                y: y,
-                additionalParameters: parameters
+            crv: crv,
+            x: x,
+            y: y,
+            additionalParameters: parameters
         )
     }
 }
@@ -113,11 +113,11 @@ extension ECPrivateKey: Decodable {
         // The key type parameter is required.
         guard try commonParameters.decode(String.self, forKey: .keyType) == JWKKeyType.EC.rawValue else {
             throw DecodingError.keyNotFound(
-                    JWKParameter.keyType,
-                    DecodingError.Context.init(
-                            codingPath: [JWKParameter.keyType],
-                            debugDescription: "Key Type parameter wrong."
-                    )
+                JWKParameter.keyType,
+                DecodingError.Context(
+                    codingPath: [JWKParameter.keyType],
+                    debugDescription: "Key Type parameter wrong."
+                )
             )
         }
 
@@ -135,11 +135,11 @@ extension ECPrivateKey: Decodable {
         let privateKey = try ecParameters.decode(String.self, forKey: .privateKey)
 
         try self.init(
-                crv: crv.rawValue,
-                x: x,
-                y: y,
-                privateKey: privateKey,
-                additionalParameters: parameters
+            crv: crv.rawValue,
+            x: x,
+            y: y,
+            privateKey: privateKey,
+            additionalParameters: parameters
         )
     }
 }

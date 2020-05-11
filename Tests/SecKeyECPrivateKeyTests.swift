@@ -22,11 +22,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class SecKeyECPrivateKeyTests: ECCryptoTestCase {
-
     func testPrivateKeyComponents() {
         allTestData.forEach { testData in
             let components = try? testData.privateKey.ecPrivateKeyComponents()
@@ -59,10 +58,10 @@ class SecKeyECPrivateKeyTests: ECCryptoTestCase {
     func testPrivateKeyFromPrivateComponents() throws {
         try allTestData.forEach { testData in
             let components = (
-                    testData.expectedCurveType,
-                    testData.expectedXCoordinate,
-                    testData.expectedYCoordinate,
-                    testData.expectedPrivateOctetString
+                testData.expectedCurveType,
+                testData.expectedXCoordinate,
+                testData.expectedYCoordinate,
+                testData.expectedPrivateOctetString
             )
             let secKey = try SecKey.representing(ecPrivateKeyComponents: components)
 

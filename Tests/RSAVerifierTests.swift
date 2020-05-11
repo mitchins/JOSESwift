@@ -22,11 +22,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class RSAVerifierTests: RSACryptoTestCase {
-
     override func setUp() {
         super.setUp()
     }
@@ -51,5 +50,4 @@ class RSAVerifierTests: RSACryptoTestCase {
 
         XCTAssertTrue(try! verifier.verify(signingInput, against: jws.signature))
     }
-
 }

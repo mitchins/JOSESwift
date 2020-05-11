@@ -22,8 +22,8 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWSHeaderTests: XCTestCase {
     let parameterDict = ["alg": "\(SignatureAlgorithm.RS512.rawValue)"]
@@ -65,7 +65,7 @@ class JWSHeaderTests: XCTestCase {
     func testInitDirectlyWithMissingRequiredParameters() {
         do {
             _ = try JWSHeader(parameters: ["typ": "JWT"], headerData: try! JSONSerialization.data(withJSONObject: ["typ": "JWT"], options: []))
-        } catch HeaderParsingError.requiredHeaderParameterMissing(let parameter) {
+        } catch let HeaderParsingError.requiredHeaderParameterMissing(parameter) {
             XCTAssertEqual(parameter, "alg")
             return
         } catch {
@@ -78,7 +78,7 @@ class JWSHeaderTests: XCTestCase {
     func testInitWithMissingRequiredParameters() {
         do {
             _ = try JWSHeader(parameters: ["typ": "JWT"])
-        } catch HeaderParsingError.requiredHeaderParameterMissing(let parameter) {
+        } catch let HeaderParsingError.requiredHeaderParameterMissing(parameter) {
             XCTAssertEqual(parameter, "alg")
             return
         } catch {
@@ -157,5 +157,4 @@ class JWSHeaderTests: XCTestCase {
         XCTAssertEqual(header.parameters["crit"] as? [String], crit)
         XCTAssertEqual(header.crit, crit)
     }
-
 }

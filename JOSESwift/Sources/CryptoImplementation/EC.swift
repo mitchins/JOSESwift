@@ -21,10 +21,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import Foundation
-import Security
 import CommonCrypto
+import Foundation
 import LocalAuthentication
+import Security
 
 internal enum ECError: Error {
     case algorithmNotSupported
@@ -67,7 +67,7 @@ public enum ECCurveType: String, Codable {
     }
 
     var signatureOctetLength: Int {
-        return self.coordinateOctetLength * 2
+        self.coordinateOctetLength * 2
     }
 
     static func fromKeyBitLength(_ length: Int) -> ECCurveType? {
@@ -97,8 +97,7 @@ public enum ECCurveType: String, Codable {
     }
 }
 
-fileprivate extension SignatureAlgorithm {
-
+private extension SignatureAlgorithm {
     var secKeyAlgorithm: SecKeyAlgorithm? {
         switch self {
         case .ES256:
@@ -250,7 +249,7 @@ internal struct EC {
             assert(data.count > 0)
             let msb: UInt8 = 0b1000_0000
             // drop all leading zero bytes
-            let varlen = data.drop { $0 == 0}
+            let varlen = data.drop { $0 == 0 }
             guard let firstNonZero = varlen.first else {
                 // all bytes were zero so the encoded value is zero
                 return Data(count: 1)
@@ -261,5 +260,4 @@ internal struct EC {
             return varlen
         }
     }
-
 }

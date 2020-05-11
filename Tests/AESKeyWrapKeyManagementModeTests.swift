@@ -23,9 +23,9 @@
 
 // swiftlint:disable force_unwrapping
 
-import XCTest
 import CommonCrypto
 @testable import JOSESwift
+import XCTest
 
 extension AESError: Equatable {
     public static func == (lhs: AESError, rhs: AESError) -> Bool {
@@ -50,7 +50,7 @@ class AESKeyWrapKeyManagementModeTests: XCTestCase {
     let symmetricKeys: [KeyManagementAlgorithm: Data] = [
         KeyManagementAlgorithm.A128KW: Data(count: 128 / 8),
         KeyManagementAlgorithm.A192KW: Data(count: 192 / 8),
-        KeyManagementAlgorithm.A256KW: Data(count: 256 / 8)
+        KeyManagementAlgorithm.A256KW: Data(count: 256 / 8),
     ]
 
     func testGeneratesRandomContentEncryptionKeyOnEachCall() throws {
@@ -213,8 +213,8 @@ private func ccAESKeyUnwrap(
                         let wrappedKeyBytes = wrappedKeyBytes.bindMemory(to: UInt8.self).baseAddress,
                         let ivBytes = ivBytes.bindMemory(to: UInt8.self).baseAddress,
                         let keyEncryptionKeyBytes = keyEncryptionKeyBytes.bindMemory(to: UInt8.self).baseAddress
-                        else {
-                            return Int32(kCCMemoryFailure)
+                    else {
+                        return Int32(kCCMemoryFailure)
                     }
                     return CCSymmetricKeyUnwrap(
                         alg,
@@ -229,7 +229,7 @@ private func ccAESKeyUnwrap(
     }
 
     if status == kCCSuccess {
-        rawKey.removeSubrange(rawKeyLength..<rawKey.count)
+        rawKey.removeSubrange(rawKeyLength ..< rawKey.count)
     }
 
     return (rawKey, status)

@@ -22,14 +22,13 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWKECKeysTests: ECCryptoTestCase {
-
     func testMergingDuplicateAdditionalParametersInPublicKey() {
         allTestData.forEach { keyData in
-            let params = [ "kty": "wrongKty" ]
+            let params = ["kty": "wrongKty"]
             let jwk = try! ECPublicKey(publicKey: keyData.publicKey, additionalParameters: params)
 
             XCTAssertEqual(jwk["kty"] ?? "", "EC")
@@ -39,11 +38,11 @@ class JWKECKeysTests: ECCryptoTestCase {
     func testMergingDuplicateAdditionalParametersInPrivateKey() {
         allTestData.forEach { keyData in
             let jwk = try! ECPrivateKey(
-                    crv: keyData.expectedCurveType,
-                    x: keyData.expectedXCoordinateBase64Url,
-                    y: keyData.expectedYCoordinateBase64Url,
-                    privateKey: keyData.expectedPrivateBase64Url,
-                    additionalParameters: [ "kty": "wrongKty" ]
+                crv: keyData.expectedCurveType,
+                x: keyData.expectedXCoordinateBase64Url,
+                y: keyData.expectedYCoordinateBase64Url,
+                privateKey: keyData.expectedPrivateBase64Url,
+                additionalParameters: ["kty": "wrongKty"]
             )
 
             XCTAssertEqual(jwk["kty"] ?? "", "EC")
@@ -53,9 +52,9 @@ class JWKECKeysTests: ECCryptoTestCase {
     func testInitPublicKeyDirectlyWithoutAdditionalParameters() {
         allTestData.forEach { keyData in
             let key = ECPublicKey(
-                    crv: ECCurveType(rawValue: keyData.expectedCurveType)!,
-                    x: keyData.expectedXCoordinateBase64Url,
-                    y: keyData.expectedYCoordinateBase64Url
+                crv: ECCurveType(rawValue: keyData.expectedCurveType)!,
+                x: keyData.expectedXCoordinateBase64Url,
+                y: keyData.expectedYCoordinateBase64Url
             )
 
             XCTAssertEqual(key.keyType, .EC)
@@ -72,17 +71,16 @@ class JWKECKeysTests: ECCryptoTestCase {
 
             // kty, crv, x, y
             XCTAssertEqual(key.parameters.count, 4)
-
         }
     }
 
     func testInitPrivateKeyDirectlyWithoutAdditionalParameters() {
         allTestData.forEach { keyData in
             let key = try! ECPrivateKey(
-                    crv: keyData.expectedCurveType,
-                    x: keyData.expectedXCoordinateBase64Url,
-                    y: keyData.expectedYCoordinateBase64Url,
-                    privateKey: keyData.expectedPrivateBase64Url
+                crv: keyData.expectedCurveType,
+                x: keyData.expectedXCoordinateBase64Url,
+                y: keyData.expectedYCoordinateBase64Url,
+                privateKey: keyData.expectedPrivateBase64Url
             )
 
             XCTAssertEqual(key.keyType, .EC)
@@ -118,10 +116,10 @@ class JWKECKeysTests: ECCryptoTestCase {
     func testPrivateKeyKeyTypeIsPresent() {
         allTestData.forEach { keyData in
             let jwk = try! ECPrivateKey(
-                    crv: keyData.expectedCurveType,
-                    x: keyData.expectedXCoordinateBase64Url,
-                    y: keyData.expectedYCoordinateBase64Url,
-                    privateKey: keyData.expectedPrivateBase64Url
+                crv: keyData.expectedCurveType,
+                x: keyData.expectedXCoordinateBase64Url,
+                y: keyData.expectedYCoordinateBase64Url,
+                privateKey: keyData.expectedPrivateBase64Url
             )
 
             XCTAssertEqual(jwk.keyType, .EC)
@@ -152,11 +150,11 @@ class JWKECKeysTests: ECCryptoTestCase {
         allTestData.forEach { keyData in
             let params = ["kid": "new on the block", "use": "test"]
             let jwk = try! ECPrivateKey(
-                    crv: keyData.expectedCurveType,
-                    x: keyData.expectedXCoordinateBase64Url,
-                    y: keyData.expectedYCoordinateBase64Url,
-                    privateKey: keyData.expectedPrivateBase64Url,
-                    additionalParameters: params
+                crv: keyData.expectedCurveType,
+                x: keyData.expectedXCoordinateBase64Url,
+                y: keyData.expectedYCoordinateBase64Url,
+                privateKey: keyData.expectedPrivateBase64Url,
+                additionalParameters: params
             )
 
             XCTAssertEqual(jwk.parameters.count, 7)

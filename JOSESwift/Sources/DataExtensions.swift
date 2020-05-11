@@ -60,7 +60,7 @@ extension Data {
     ///
     /// - Returns: The base64url encoded string.
     public func base64URLEncodedString() -> String {
-        let s = self.base64EncodedString()
+        let s = base64EncodedString()
         return s
             .replacingOccurrences(of: "=", with: "")
             .replacingOccurrences(of: "+", with: "-")
@@ -71,27 +71,27 @@ extension Data {
     ///
     /// - Returns: The base64url encoded data.
     public func base64URLEncodedData() -> Data {
-        // UTF-8 can represent [all Unicode characters](https://en.wikipedia.org/wiki/UTF-8), so this 
+        // UTF-8 can represent [all Unicode characters](https://en.wikipedia.org/wiki/UTF-8), so this
         // forced unwrap is safe. See also [this](https://stackoverflow.com/a/46152738/5233456) SO answer.
         // swiftlint:disable:next force_unwrapping
-        return self.base64URLEncodedString().data(using: .utf8)!
+        base64URLEncodedString().data(using: .utf8)!
     }
 
     /// Returns the byte length of a data object as octet hexadecimal data.
     ///
     /// - Returns: The data byte length as octet hexadecimal data.
     func getByteLengthAsOctetHexData() -> Data {
-        let dataLength = UInt64(self.count * 8)
+        let dataLength = UInt64(count * 8)
         let dataLengthInHex = String(dataLength, radix: 16, uppercase: false)
 
         var dataLengthBytes = [UInt8](repeatElement(0x00, count: 8))
 
-        var dataIndex = dataLengthBytes.count-1
+        var dataIndex = dataLengthBytes.count - 1
         for index in stride(from: 0, to: dataLengthInHex.count, by: 2) {
             var offset = 2
             var hexStringChunk = ""
 
-            if dataLengthInHex.count-index == 1 {
+            if dataLengthInHex.count - index == 1 {
                 offset = 1
             }
 
@@ -117,6 +117,6 @@ extension Data: DataConvertible {
     }
 
     public func data() -> Data {
-        return self
+        self
     }
 }

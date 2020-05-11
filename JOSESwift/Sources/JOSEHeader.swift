@@ -55,7 +55,7 @@ extension JOSEHeader {
     }
 
     public func data() -> Data {
-        return headerData
+        headerData
     }
 }
 

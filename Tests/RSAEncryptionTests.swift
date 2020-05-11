@@ -22,8 +22,8 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 extension RSAError: Equatable {
     public static func == (lhs: RSAError, rhs: RSAError) -> Bool {
@@ -32,7 +32,7 @@ extension RSAError: Equatable {
             return true
         case (.plainTextLengthNotSatisfied, .plainTextLengthNotSatisfied):
             return true
-        case (.decryptingFailed(let a), .decryptingFailed(let b)):
+        case let (.decryptingFailed(a), .decryptingFailed(b)):
             return a == b
         default:
             return false
@@ -96,8 +96,8 @@ class RSAEncryptionTests: RSACryptoTestCase {
         guard
             let publicKeyAlice2048 = publicKeyAlice2048,
             let publicKeyBob2048 = publicKeyBob2048 else {
-                XCTFail()
-                return
+            XCTFail()
+            return
         }
 
         for algorithm in keyManagementModeAlgorithms {
@@ -113,16 +113,16 @@ class RSAEncryptionTests: RSACryptoTestCase {
         guard
             let publicKeyBob2048 = publicKeyBob2048,
             let privateKeyBob2048 = privateKeyBob2048 else {
-                XCTFail()
-                return
+            XCTFail()
+            return
         }
 
         for algorithm in keyManagementModeAlgorithms {
             guard
                 let cipherText = try? RSA.encrypt(message.data(using: .utf8)!, with: publicKeyBob2048, and: algorithm),
                 let secKeyAlgorithm = algorithm.secKeyAlgorithm else {
-                    XCTFail()
-                    return
+                XCTFail()
+                return
             }
 
             var decryptionError: Unmanaged<CFError>?

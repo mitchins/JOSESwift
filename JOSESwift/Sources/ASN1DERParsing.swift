@@ -54,10 +54,10 @@ internal struct TLVTriplet {
 }
 
 // MARK: Array Extension for Parsing
+
 // Inspired by: https://github.com/henrinormak/Heimdall/blob/master/Heimdall/Heimdall.swift
 
 internal extension Array where Element == UInt8 {
-
     /// Reads the value of the specified ASN.1 type from the front of the bytes array.
     /// The bytes array is expected to be a DER encoding of an ASN.1 type.
     /// The specified type's TLV triplet is expected to be at the front of the bytes array.
@@ -69,7 +69,7 @@ internal extension Array where Element == UInt8 {
     /// - Returns: The value of the specified ASN.1 type. More formally, the value field of the type's TLV triplet.
     /// - Throws: An `ASN1DERParsingError` indicating any parsing errors.
     func read(_ type: ASN1Type) throws -> [UInt8] {
-        let triplet = try self.nextTLVTriplet()
+        let triplet = try nextTLVTriplet()
 
         guard triplet.tag == type.tag else {
             throw ASN1DERParsingError.incorrectTypeTag(actualTag: triplet.tag, expectedTag: type.tag)
@@ -88,7 +88,7 @@ internal extension Array where Element == UInt8 {
     /// - Returns: The remaining bytes of the bytes array that may contain further ASN.1 types.
     /// - Throws: An `ASN1DERParsingError` indicating any parsing errors.
     func skip(_ type: ASN1Type) throws -> [UInt8] {
-        let triplet = try self.nextTLVTriplet()
+        let triplet = try nextTLVTriplet()
 
         guard triplet.tag == type.tag else {
             throw ASN1DERParsingError.incorrectTypeTag(actualTag: triplet.tag, expectedTag: type.tag)
@@ -97,7 +97,7 @@ internal extension Array where Element == UInt8 {
         // TLV triplet = 1 tag byte + some length bytes + some value bytes
         let skippedTripletLength = (1 + triplet.length.count + triplet.value.count)
 
-        return Array(self.dropFirst(skippedTripletLength))
+        return Array(dropFirst(skippedTripletLength))
     }
 
     /// Reads a TLV (tag, length, value) triplet of a DER encoded ASN.1 type from the bytes array.
@@ -111,7 +111,7 @@ internal extension Array where Element == UInt8 {
         // DER encoding of an ASN.1 type: [ TAG | LENGTH | VALUE ].
 
         // At least the tag and one length byte must be present.
-        guard self.count >= 2 else {
+        guard count >= 2 else {
             throw ASN1DERParsingError.incorrectTLVLength
         }
 
@@ -125,7 +125,6 @@ internal extension Array where Element == UInt8 {
 
         return TLVTriplet(tag: tag, length: lengthField, value: valueField)
     }
-
 }
 
 // MARK: Freestanding Helper Functions
@@ -148,7 +147,7 @@ private func readTag(from encodedTriplet: [UInt8], pointer: inout Int) -> UInt8 
 
 private func readLengthField(from encodedTriplet: [UInt8], pointer: inout Int) throws -> [UInt8] {
     if encodedTriplet[pointer] < 128 {
-        let lengthField = [ encodedTriplet[pointer] ]
+        let lengthField = [encodedTriplet[pointer]]
         pointer.advance()
 
         return lengthField
@@ -171,7 +170,7 @@ private func readLengthField(from encodedTriplet: [UInt8], pointer: inout Int) t
         throw ASN1DERParsingError.incorrectLengthFieldLength
     }
 
-    let lengthField = Array(encodedTriplet[pointer...(pointer + lengthFieldCount)])
+    let lengthField = Array(encodedTriplet[pointer ... (pointer + lengthFieldCount)])
 
     pointer.advance()
     pointer.advance(by: lengthFieldCount)
@@ -195,7 +194,7 @@ private func readValueField(ofLength length: Int, from encodedTriplet: [UInt8], 
         throw ASN1DERParsingError.incorrectValueLength
     }
 
-    return Array(encodedTriplet[pointer..<endPointer])
+    return Array(encodedTriplet[pointer ..< endPointer])
 }
 
 private func length(encodedBy lengthField: [UInt8]) throws -> Int {
@@ -221,6 +220,6 @@ private func length(encodedBy lengthField: [UInt8]) throws -> Int {
 
 private extension Int {
     mutating func advance(by n: Int = 1) {
-        self = self.advanced(by: n)
+        self = advanced(by: n)
     }
 }

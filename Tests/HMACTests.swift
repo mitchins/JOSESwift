@@ -22,8 +22,8 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class HMACTests: RSACryptoTestCase {
     let testKey = "0102030405060708090a0b0c0d0e0f10111213141516171819".hexadecimalToData()!

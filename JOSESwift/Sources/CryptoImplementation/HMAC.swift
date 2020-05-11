@@ -21,14 +21,14 @@
 //  ---------------------------------------------------------------------------
 //
 
-import Foundation
 import CommonCrypto
+import Foundation
 
 enum HMACError: Error {
     case inputMustBeGreaterThanZero
 }
 
-fileprivate extension HMACAlgorithm {
+private extension HMACAlgorithm {
     var ccAlgorithm: CCAlgorithm {
         switch self {
         case .SHA512:

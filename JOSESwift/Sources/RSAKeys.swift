@@ -52,7 +52,6 @@ public typealias RSAPrivateKeyComponents = (
 /// It can be expressed through `RSAPublicKeyComponents` meaning it can be converted to such components
 /// and it can be created from such components.
 public protocol ExpressibleAsRSAPublicKeyComponents {
-
     /// Creates an object that contains the supplied components in the format specified by PKCS#1.
     ///
     /// - Parameter components: The public key components.
@@ -71,7 +70,6 @@ public protocol ExpressibleAsRSAPublicKeyComponents {
 /// It can be expressed through `RSAPrivateKeyComponents` meaning it can be converted to such components
 /// and it can be created from such components.
 public protocol ExpressibleAsRSAPrivateKeyComponents {
-
     /// Creates an object that contains the supplied components in the format specified by PKCS#1.
     ///
     /// - Parameter components: The private key components.
@@ -114,17 +112,17 @@ public struct RSAPublicKey: JWK {
     ///               as specified in [RFC-7518, Section 2](https://tools.ietf.org/html/rfc7518#section-2).
     ///   - parameters: Additional JWK parameters.
     public init(modulus: String, exponent: String, additionalParameters parameters: [String: String] = [:]) {
-        self.keyType = .RSA
+        keyType = .RSA
         self.modulus = modulus
         self.exponent = exponent
 
         self.parameters = parameters.merging(
             [
-                JWKParameter.keyType.rawValue: self.keyType.rawValue,
+                JWKParameter.keyType.rawValue: keyType.rawValue,
                 RSAParameter.modulus.rawValue: self.modulus,
-                RSAParameter.exponent.rawValue: self.exponent
+                RSAParameter.exponent.rawValue: self.exponent,
             ],
-            uniquingKeysWith: { (_, new) in new }
+            uniquingKeysWith: { _, new in new }
         )
     }
 
@@ -163,12 +161,12 @@ public struct RSAPublicKey: JWK {
     /// - Parameter type: The type to convert the JWK to.
     /// - Returns: The type initialized with the key data.
     /// - Throws: A `JOSESwiftError` indicating any errors.
-    public func converted<T>(to type: T.Type) throws -> T where T: ExpressibleAsRSAPublicKeyComponents {
-        guard let modulusData = Data(base64URLEncoded: self.modulus) else {
+    public func converted<T>(to _: T.Type) throws -> T where T: ExpressibleAsRSAPublicKeyComponents {
+        guard let modulusData = Data(base64URLEncoded: modulus) else {
             throw JOSESwiftError.modulusNotBase64URLUIntEncoded
         }
 
-        guard let exponentData = Data(base64URLEncoded: self.exponent) else {
+        guard let exponentData = Data(base64URLEncoded: exponent) else {
             throw JOSESwiftError.exponentNotBase64URLUIntEncoded
         }
 
@@ -206,19 +204,19 @@ public struct RSAPrivateKey: JWK {
     ///               as specified in [RFC-7518, Section 2](https://tools.ietf.org/html/rfc7518#section-2).
     ///   - parameters: Additional JWK parameters.
     public init(modulus: String, exponent: String, privateExponent: String, additionalParameters parameters: [String: String] = [:]) {
-        self.keyType = .RSA
+        keyType = .RSA
         self.modulus = modulus
         self.exponent = exponent
         self.privateExponent = privateExponent
 
         self.parameters = parameters.merging(
             [
-                JWKParameter.keyType.rawValue: self.keyType.rawValue,
+                JWKParameter.keyType.rawValue: keyType.rawValue,
                 RSAParameter.modulus.rawValue: self.modulus,
                 RSAParameter.exponent.rawValue: self.exponent,
-                RSAParameter.privateExponent.rawValue: self.privateExponent
+                RSAParameter.privateExponent.rawValue: self.privateExponent,
             ],
-            uniquingKeysWith: { (_, new) in new }
+            uniquingKeysWith: { _, new in new }
         )
     }
 
@@ -258,16 +256,16 @@ public struct RSAPrivateKey: JWK {
     /// - Parameter type: The type to convert the JWK to.
     /// - Returns: The type initialized with the key data.
     /// - Throws: A `JOSESwiftError` indicating any errors.
-    public func converted<T>(to type: T.Type) throws -> T where T: ExpressibleAsRSAPrivateKeyComponents {
-        guard let modulusData = Data(base64URLEncoded: self.modulus) else {
+    public func converted<T>(to _: T.Type) throws -> T where T: ExpressibleAsRSAPrivateKeyComponents {
+        guard let modulusData = Data(base64URLEncoded: modulus) else {
             throw JOSESwiftError.modulusNotBase64URLUIntEncoded
         }
 
-        guard let exponentData = Data(base64Encoded: self.exponent) else {
+        guard let exponentData = Data(base64Encoded: exponent) else {
             throw JOSESwiftError.exponentNotBase64URLUIntEncoded
         }
 
-        guard let privateExponentData = Data(base64Encoded: self.exponent) else {
+        guard let privateExponentData = Data(base64Encoded: exponent) else {
             throw JOSESwiftError.privateExponentNotBase64URLUIntEncoded
         }
 

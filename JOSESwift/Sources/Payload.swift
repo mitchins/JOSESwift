@@ -31,7 +31,7 @@ public struct Payload: DataConvertible {
     }
 
     public func data() -> Data {
-        return payload
+        payload
     }
 
     func compressed(using algorithm: CompressionAlgorithm?) throws -> Payload {

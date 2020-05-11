@@ -27,7 +27,7 @@ import Foundation
 
 public extension JWK {
     subscript(parameter: String) -> String? {
-        return parameters[parameter]
+        parameters[parameter]
     }
 }
 
@@ -43,6 +43,6 @@ public extension JWK {
     }
 
     func jsonData() -> Data? {
-        return try? JSONEncoder().encode(self)
+        try? JSONEncoder().encode(self)
     }
 }

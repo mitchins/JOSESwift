@@ -53,7 +53,7 @@ public enum SignatureAlgorithm: String {
 /// See [RFC 7518, Section 4](https://tools.ietf.org/html/rfc7518#section-4).
 public enum KeyManagementAlgorithm: String, CaseIterable {
     /// Key encryption using RSAES-PKCS1-v1_5
-    case RSA1_5 = "RSA1_5"
+    case RSA1_5
     /// Key encryption using RSAES OAEP using SHA-1 and MGF1 with SHA-1
     case RSAOAEP = "RSA-OAEP"
     /// Key encryption using RSAES OAEP using SHA-256 and MGF1 with SHA-256
@@ -102,7 +102,7 @@ public enum HMACAlgorithm: String {
 /// - Deflate: [DEF](https://tools.ietf.org/html/rfc7516#section-4.1.3)
 public enum CompressionAlgorithm: String {
     case DEFLATE = "DEF"
-    case NONE = "NONE"
+    case NONE
 }
 
 // MARK: - Deprecated API

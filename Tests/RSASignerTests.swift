@@ -22,8 +22,8 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class RSASignerTests: RSACryptoTestCase {
     let signatureBase64URL = """

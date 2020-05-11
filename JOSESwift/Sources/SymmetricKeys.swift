@@ -26,15 +26,13 @@ import Foundation
 // MARK: Protocols
 
 /// The components of a symmetric key.
-public typealias SymmetricKeyComponents = (
+public typealias SymmetricKeyComponents =
     Data
-)
 
 /// A type that represents a symmetric key.
 /// It can be expressed through `SymmetricKeyComponents` meaning it can be converted to such components
 /// and it can be created from such components.
 public protocol ExpressibleAsSymmetricKeyComponents {
-
     /// Creates an object that contains the supplied components.
     ///
     /// - Parameter components: The symmetric key components.
@@ -69,15 +67,15 @@ public struct SymmetricKey: JWK {
     ///   - key: The octet sequence containing the key data.
     ///   - parameters: Additional JWK parameters.
     public init(key: Data, additionalParameters parameters: [String: String] = [:]) {
-        self.keyType = .OCT
+        keyType = .OCT
         self.key = key.base64URLEncodedString()
 
         self.parameters = parameters.merging(
             [
-                JWKParameter.keyType.rawValue: self.keyType.rawValue,
-                SymmetricKeyParameter.key.rawValue: self.key
+                JWKParameter.keyType.rawValue: keyType.rawValue,
+                SymmetricKeyParameter.key.rawValue: self.key,
             ],
-            uniquingKeysWith: { (_, new) in new }
+            uniquingKeysWith: { _, new in new }
         )
     }
 
@@ -112,10 +110,10 @@ public struct SymmetricKey: JWK {
     /// - Parameter type: The type to convert the JWK to.
     /// - Returns: The type initialized with the key data.
     /// - Throws: A `JOSESwiftError` indicating any errors.
-    public func converted<T>(to type: T.Type) throws -> T where T: ExpressibleAsSymmetricKeyComponents {
+    public func converted<T>(to _: T.Type) throws -> T where T: ExpressibleAsSymmetricKeyComponents {
         guard let keyData = Data(base64URLEncoded: key) else {
             throw JOSESwiftError.symmetricKeyNotBase64URLEncoded
         }
-        return try T.representing(symmetricKeyComponents: (keyData))
+        return try T.representing(symmetricKeyComponents: keyData)
     }
 }

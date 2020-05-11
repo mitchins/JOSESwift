@@ -37,14 +37,14 @@ public struct JWS {
 
     /// The compact serialization of this JWS object as string.
     public var compactSerializedString: String {
-        return JOSESerializer().serialize(compact: self)
+        JOSESerializer().serialize(compact: self)
     }
 
     /// The compact serialization of this JWS object as data.
     public var compactSerializedData: Data {
         // Force unwrapping is ok here, since `serialize` returns a string generated from data.
         // swiftlint:disable:next force_unwrapping
-        return JOSESerializer().serialize(compact: self).data(using: .utf8)!
+        JOSESerializer().serialize(compact: self).data(using: .utf8)!
     }
 
     /// Constructs a JWS object from a given header, payload, and signer.
@@ -53,17 +53,17 @@ public struct JWS {
     ///   - header: A fully initialized `JWSHeader`.
     ///   - payload: A fully initialized `Payload`.
     ///   - signer: The `Signer` used to compute the JWS signature from the header and payload.
-    /// - Throws: `JOSESwiftError` if any error occurs while signing. 
+    /// - Throws: `JOSESwiftError` if any error occurs while signing.
     public init<KeyType>(header: JWSHeader, payload: Payload, signer: Signer<KeyType>) throws {
         self.header = header
         self.payload = payload
 
         do {
-            self.signature = try signer.sign(header: header, payload: payload)
+            signature = try signer.sign(header: header, payload: payload)
         } catch {
             if let ecError = error as? ECError {
                 switch ecError {
-                case .localAuthenticationFailed(errorCode: let errorCode):
+                case let .localAuthenticationFailed(errorCode: errorCode):
                     throw JOSESwiftError.localAuthenticationFailed(errorCode: errorCode)
                 default:
                     break
@@ -71,7 +71,6 @@ public struct JWS {
             }
             throw JOSESwiftError.signingFailed(description: error.localizedDescription)
         }
-
     }
 
     /// Constructs a JWS object from a given compact serialization string.
@@ -110,7 +109,7 @@ public struct JWS {
         self = try JOSEDeserializer().deserialize(JWS.self, fromCompactSerialization: compactSerializationString)
     }
 
-    fileprivate init(header: JWSHeader, payload: Payload, signature: Data) {
+    private init(header: JWSHeader, payload: Payload, signature: Data) {
         self.header = header
         self.payload = payload
         self.signature = signature
@@ -201,7 +200,6 @@ public struct JWS {
             return false
         }
     }
-
 }
 
 extension JWS: CompactSerializable {
@@ -214,7 +212,7 @@ extension JWS: CompactSerializable {
 
 extension JWS: CompactDeserializable {
     public static var componentCount: Int {
-        return 3
+        3
     }
 
     public init(from deserializer: CompactDeserializer) throws {

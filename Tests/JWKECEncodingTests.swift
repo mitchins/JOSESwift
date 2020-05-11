@@ -22,11 +22,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWKECEncodingTests: ECCryptoTestCase {
-
     private struct Consts {
         static let kid = "2018-TEST"
     }
@@ -35,7 +34,7 @@ class JWKECEncodingTests: ECCryptoTestCase {
         allTestData.forEach { keyData in
             let jwk = try! ECPublicKey(publicKey: keyData.publicKey, additionalParameters: [
                 "alg": keyData.signatureAlgorithm,
-                "kid": Consts.kid
+                "kid": Consts.kid,
             ])
 
             let jsonData = try? JSONEncoder().encode(jwk)
@@ -50,7 +49,7 @@ class JWKECEncodingTests: ECCryptoTestCase {
             let jwk = try! ECPublicKey(publicKey: keyData.publicKey, additionalParameters: [
                 "alg": keyData.signatureAlgorithm,
                 "kid": Consts.kid,
-                "breeze": "through"
+                "breeze": "through",
             ])
 
             let jsonData = try? JSONEncoder().encode(jwk)
@@ -64,11 +63,11 @@ class JWKECEncodingTests: ECCryptoTestCase {
     func testPrivateKeyEncoding() {
         allTestData.forEach { keyData in
             let jwk = try! ECPrivateKey(
-                    crv: keyData.expectedCurveType,
-                    x: keyData.expectedXCoordinateBase64Url,
-                    y: keyData.expectedYCoordinateBase64Url,
-                    privateKey: keyData.expectedPrivateBase64Url,
-                    additionalParameters: ["alg": keyData.signatureAlgorithm, "kid": Consts.kid]
+                crv: keyData.expectedCurveType,
+                x: keyData.expectedXCoordinateBase64Url,
+                y: keyData.expectedYCoordinateBase64Url,
+                privateKey: keyData.expectedPrivateBase64Url,
+                additionalParameters: ["alg": keyData.signatureAlgorithm, "kid": Consts.kid]
             )
 
             let jsonData = try? JSONEncoder().encode(jwk)
@@ -82,11 +81,11 @@ class JWKECEncodingTests: ECCryptoTestCase {
     func testEncodingPrivateKeyWithUnregisteredParameter() {
         allTestData.forEach { keyData in
             let jwk = try! ECPrivateKey(
-                    crv: keyData.expectedCurveType,
-                    x: keyData.expectedXCoordinateBase64Url,
-                    y: keyData.expectedYCoordinateBase64Url,
-                    privateKey: keyData.expectedPrivateBase64Url,
-                    additionalParameters: ["alg": keyData.signatureAlgorithm, "kid": Consts.kid, "breeze": "through"]
+                crv: keyData.expectedCurveType,
+                x: keyData.expectedXCoordinateBase64Url,
+                y: keyData.expectedYCoordinateBase64Url,
+                privateKey: keyData.expectedPrivateBase64Url,
+                additionalParameters: ["alg": keyData.signatureAlgorithm, "kid": Consts.kid, "breeze": "through"]
             )
 
             let jsonData = try? JSONEncoder().encode(jwk)

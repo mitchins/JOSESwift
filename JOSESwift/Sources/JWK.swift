@@ -41,9 +41,9 @@ internal enum JWKError: Error {
 /// family used with the key(s) represented by a JWK.
 /// See [RFC-7518](https://tools.ietf.org/html/rfc7518#section-7.4) for details.
 public enum JWKKeyType: String, Codable {
-    case RSA = "RSA"
+    case RSA
     case OCT = "oct"
-    case EC = "EC"
+    case EC
 }
 
 /// A JWK object that represents a key or a key pair of a certain type.
@@ -63,7 +63,7 @@ public protocol JWK: Codable {
     /// [RFC 7518, Section 6](https://tools.ietf.org/html/rfc7518#section-6) for possible parameters.
     ///
     /// - Parameter parameter: The desired parameter.
-    subscript(parameter: String) -> String? { get }
+    subscript(_: String) -> String? { get }
 
     /// Initializes a JWK from given JSON data.
     ///

@@ -31,6 +31,6 @@ internal struct RSASigner: SignerProtocol {
     let privateKey: KeyType
 
     func sign(_ signingInput: Data) throws -> Data {
-        return try RSA.sign(signingInput, with: privateKey, and: algorithm)
+        try RSA.sign(signingInput, with: privateKey, and: algorithm)
     }
 }

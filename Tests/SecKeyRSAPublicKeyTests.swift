@@ -22,11 +22,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class SecKeyRSAPublicKeyTests: RSACryptoTestCase {
-
     func testpublicKeyAlice2048Modulus() {
         let components = try? publicKeyAlice2048!.rsaPublicKeyComponents()
 
@@ -121,5 +120,4 @@ class SecKeyRSAPublicKeyTests: RSACryptoTestCase {
         let components = ("ABCD".data(using: .utf8)!, "EFGH".data(using: .utf8)!)
         XCTAssertThrowsError(try SecKey.representing(rsaPublicKeyComponents: components))
     }
-
 }

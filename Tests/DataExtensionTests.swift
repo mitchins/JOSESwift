@@ -22,8 +22,8 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class DataExtensionTests: XCTestCase {
     let validBase64URLTestString = "VGhpcyBpcyBhIHRlc3Qgc3RyaW5nIHdoZXJlIHRoZSBiYXNlNjQgcmVwcmVzZW50YXRpb24gY29udGFpbnMgYSA9IGFzIHBhZGRpbmc"
@@ -39,7 +39,7 @@ class DataExtensionTests: XCTestCase {
         // Does "=" <-> "" replacement work?
         "=": (unencoded: "I'm not the most important test.".data(using: .utf8)!, base64URLEncoded: "SSdtIG5vdCB0aGUgbW9zdCBpbXBvcnRhbnQgdGVzdC4".data(using: .utf8)!),
         // Does "==" <-> "" replacement work?
-        "==": (unencoded: "testing the test".data(using: .utf8)!, base64URLEncoded: "dGVzdGluZyB0aGUgdGVzdA".data(using: .utf8)!)
+        "==": (unencoded: "testing the test".data(using: .utf8)!, base64URLEncoded: "dGVzdGluZyB0aGUgdGVzdA".data(using: .utf8)!),
     ]
 
     override func setUp() {
@@ -154,7 +154,7 @@ class DataExtensionTests: XCTestCase {
 
     func testByteLengthAsOctetHexData() {
         let testData = "54 68 65 20 73 65 63 6f 6e 64 20 70 72 69 6e 63 69 70 6c 65 20 6f 66 20 41 75 67 75 73 74 65 20 4b 65 72 63 6b 68 6f 66 66 73".hexadecimalToData()!
-        let testDataLengthAsOctetHex = Data([ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x50 ])
+        let testDataLengthAsOctetHex = Data([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x50])
 
         let dataLength = testData.getByteLengthAsOctetHexData()
 
@@ -163,7 +163,7 @@ class DataExtensionTests: XCTestCase {
 
     func testFalseByteLengthAsOctetHexData() {
         let testData = "54 68 65 20 73 65 63 6f 6e 64 20 70 72 69 6e 63 69 70 6c 65 20 6f 66 20 41 75 67 75 73 74 65 20 4b 65 72 63 6b 68 6f 66 66 73".hexadecimalToData()!
-        let falseTestDataLengthAsOctetHex = Data([ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x11, 0x50 ])
+        let falseTestDataLengthAsOctetHex = Data([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x11, 0x50])
 
         let dataLength = testData.getByteLengthAsOctetHexData()
 

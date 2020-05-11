@@ -34,7 +34,7 @@ internal enum RSAError: Error {
     case decryptingFailed(description: String)
 }
 
-fileprivate extension SignatureAlgorithm {
+private extension SignatureAlgorithm {
     var secKeyAlgorithm: SecKeyAlgorithm? {
         switch self {
         case .RS256:
@@ -114,7 +114,7 @@ internal extension KeyManagementAlgorithm {
     }
 }
 
-fileprivate extension KeyManagementAlgorithm {
+private extension KeyManagementAlgorithm {
     /// Checks if the plain text length does not exceed the maximum
     /// for the chosen algorithm and the corresponding public key.
     /// This length checking is just for usability reasons.

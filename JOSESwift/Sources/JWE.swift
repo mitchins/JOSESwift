@@ -53,14 +53,14 @@ public struct JWE {
 
     /// The compact serialization of this JWE object as string.
     public var compactSerializedString: String {
-        return JOSESerializer().serialize(compact: self)
+        JOSESerializer().serialize(compact: self)
     }
 
     /// The compact serialization of this JWE object as data.
     public var compactSerializedData: Data {
         // Force unwrapping is ok here, since `serialize` returns a string generated from data.
         // swiftlint:disable:next force_unwrapping
-        return JOSESerializer().serialize(compact: self).data(using: .utf8)!
+        JOSESerializer().serialize(compact: self).data(using: .utf8)!
     }
 
     /// Constructs a JWS object from a given header, payload, and signer.
@@ -84,10 +84,10 @@ public struct JWE {
             throw JOSESwiftError.encryptingFailed(description: error.localizedDescription)
         }
 
-        self.encryptedKey = encryptionContext.encryptedKey
-        self.ciphertext = encryptionContext.ciphertext
-        self.initializationVector = encryptionContext.initializationVector
-        self.authenticationTag = encryptionContext.authenticationTag
+        encryptedKey = encryptionContext.encryptedKey
+        ciphertext = encryptionContext.ciphertext
+        initializationVector = encryptionContext.initializationVector
+        authenticationTag = encryptionContext.authenticationTag
     }
 
     /// Constructs a JWE object from a given compact serialization string.
@@ -127,7 +127,7 @@ public struct JWE {
     }
 
     /// Initializes a JWE by providing all of it's five parts. Only used during deserialization.
-    fileprivate init(header: JWEHeader, encryptedKey: Data, initializationVector: Data, ciphertext: Data, authenticationTag: Data) {
+    private init(header: JWEHeader, encryptedKey: Data, initializationVector: Data, ciphertext: Data, authenticationTag: Data) {
         self.header = header
         self.encryptedKey = encryptedKey
         self.initializationVector = initializationVector
@@ -222,10 +222,10 @@ extension JWE: CompactSerializable {
 /// Deserialize the JWE from a given compact deserializer.
 extension JWE: CompactDeserializable {
     public static var componentCount: Int {
-        return 5
+        5
     }
 
-    public init (from deserializer: CompactDeserializer) throws {
+    public init(from deserializer: CompactDeserializer) throws {
         let header = try deserializer.deserialize(JWEHeader.self, at: ComponentCompactSerializedIndex.jweHeaderIndex)
         let encryptedKey = try deserializer.deserialize(Data.self, at: ComponentCompactSerializedIndex.jweEncryptedKeyIndex)
         let initializationVector = try deserializer.deserialize(Data.self, at: ComponentCompactSerializedIndex.jweInitializationVectorIndex)

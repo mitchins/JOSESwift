@@ -22,15 +22,14 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWKRSAEncodingTests: RSACryptoTestCase {
-
     func testPublicKeyEncoding() {
         let jwk = try! RSAPublicKey(publicKey: publicKeyAlice2048!, additionalParameters: [
             "alg": "RS256",
-            "kid": "2011-04-29"
+            "kid": "2011-04-29",
         ])
 
         let jsonData = try? JSONEncoder().encode(jwk)
@@ -51,7 +50,7 @@ class JWKRSAEncodingTests: RSACryptoTestCase {
         let jwk = try! RSAPublicKey(publicKey: publicKeyAlice2048!, additionalParameters: [
             "alg": "RS256",
             "kid": "2011-04-29",
-            "breeze": "through"
+            "breeze": "through",
         ])
 
         let jsonData = try? JSONEncoder().encode(jwk)
@@ -74,7 +73,7 @@ class JWKRSAEncodingTests: RSACryptoTestCase {
             modulus: expectedModulus2048Base64,
             exponent: expectedExponentBase64,
             privateExponent: expectedPrivateExponentBase64,
-            additionalParameters: [ "alg": "RS256", "kid": "2011-04-29" ]
+            additionalParameters: ["alg": "RS256", "kid": "2011-04-29"]
         )
 
         let jsonData = try? JSONEncoder().encode(jwk)
@@ -97,7 +96,7 @@ class JWKRSAEncodingTests: RSACryptoTestCase {
             modulus: expectedModulus2048Base64,
             exponent: expectedExponentBase64,
             privateExponent: expectedPrivateExponentBase64,
-            additionalParameters: [ "alg": "RS256", "kid": "2011-04-29", "breeze": "through" ]
+            additionalParameters: ["alg": "RS256", "kid": "2011-04-29", "breeze": "through"]
         )
 
         let jsonData = try? JSONEncoder().encode(jwk)
@@ -115,5 +114,4 @@ class JWKRSAEncodingTests: RSACryptoTestCase {
         XCTAssertEqual(dict!["e"] as? String ?? "", expectedExponentBase64)
         XCTAssertEqual(dict!["d"] as? String ?? "", expectedPrivateExponentBase64)
     }
-
 }

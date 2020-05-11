@@ -22,11 +22,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWEDeserializationTests: XCTestCase {
-
     let serialized = """
     eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00ifQ.OKOawDo13gRp2ojaHV7LFpZcgV7\
     T6DVZKTyKOMTYUmKoTCVJRgckCL9kiMT03JGeipsEdY3mx_etLbbWSrFr05kLzcSr4qKAq7YN7\
@@ -67,7 +66,7 @@ class JWEDeserializationTests: XCTestCase {
 
         do {
             _ = try JOSEDeserializer().deserialize(JWE.self, fromCompactSerialization: wrongSerialization)
-        } catch JOSESwiftError.invalidCompactSerializationComponentCount(let count) {
+        } catch let JOSESwiftError.invalidCompactSerializationComponentCount(count) {
             XCTAssertEqual(count, 10)
             return
         } catch {
@@ -83,7 +82,7 @@ class JWEDeserializationTests: XCTestCase {
 
         do {
             _ = try JOSEDeserializer().deserialize(JWE.self, fromCompactSerialization: wrongSerialization)
-        } catch JOSESwiftError.componentNotValidBase64URL(let component) {
+        } catch let JOSESwiftError.componentNotValidBase64URL(component) {
             XCTAssertEqual(component, "XFBoMYUZodetZdvTiFvSkQXXX")
             return
         } catch {
@@ -99,7 +98,7 @@ class JWEDeserializationTests: XCTestCase {
 
         do {
             _ = try JOSEDeserializer().deserialize(JWE.self, fromCompactSerialization: wrongSerialization)
-        } catch JOSESwiftError.componentCouldNotBeInitializedFromData(let data) {
+        } catch let JOSESwiftError.componentCouldNotBeInitializedFromData(data) {
             XCTAssertEqual(data, Data(base64URLEncoded: "e2FsZzpSU0EtT0FFUCwK")!)
             return
         } catch {
@@ -115,7 +114,7 @@ class JWEDeserializationTests: XCTestCase {
 
         do {
             _ = try JOSEDeserializer().deserialize(JWE.self, fromCompactSerialization: wrongSerialization)
-        } catch JOSESwiftError.componentCouldNotBeInitializedFromData(let data) {
+        } catch let JOSESwiftError.componentCouldNotBeInitializedFromData(data) {
             XCTAssertEqual(data, Data(base64URLEncoded: "eyJ0eXAiOiJKV0UiLDE6IlJTQS1PQUVQIn0")!)
             return
         } catch {

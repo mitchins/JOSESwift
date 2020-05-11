@@ -21,15 +21,14 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWKSetCollectionTests: XCTestCase {
-
     let rsaKeys = [
         RSAPublicKey(modulus: "modulus0", exponent: "exponent0"),
         RSAPublicKey(modulus: "modulus1", exponent: "exponent1"),
-        RSAPublicKey(modulus: "modulus2", exponent: "exponent2")
+        RSAPublicKey(modulus: "modulus2", exponent: "exponent2"),
     ]
 
     func testFowardIterating() {
@@ -45,7 +44,7 @@ class JWKSetCollectionTests: XCTestCase {
         let set: JWKSet = [
             RSAPublicKey(modulus: "modulus0", exponent: "exponent0"),
             RSAPublicKey(modulus: "modulus1", exponent: "exponent1"),
-            RSAPublicKey(modulus: "modulus2", exponent: "exponent2")
+            RSAPublicKey(modulus: "modulus2", exponent: "exponent2"),
         ]
 
         for (index, key) in set.enumerated() {
@@ -55,7 +54,7 @@ class JWKSetCollectionTests: XCTestCase {
     }
 
     func testSubscriptAccess() {
-        let set =  JWKSet(keys: rsaKeys)
+        let set = JWKSet(keys: rsaKeys)
 
         XCTAssertEqual((set[1] as! RSAPublicKey).modulus, rsaKeys[1].modulus)
         XCTAssertEqual((set[0] as! RSAPublicKey).modulus, rsaKeys[0].modulus)
@@ -81,5 +80,4 @@ class JWKSetCollectionTests: XCTestCase {
         XCTAssertEqual(set.count, 0)
         XCTAssertTrue(set.isEmpty)
     }
-
 }

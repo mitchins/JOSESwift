@@ -22,12 +22,12 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 // https://stackoverflow.com/a/38725560/5233456
 private func ~= <T: Equatable>(array: [T], value: T) -> Bool {
-    return array.contains(value)
+    array.contains(value)
 }
 
 class EncrypterDecrypterInitializationTests: RSACryptoTestCase {

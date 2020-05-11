@@ -31,6 +31,6 @@ internal struct ECVerifier: VerifierProtocol {
     let publicKey: KeyType
 
     func verify(_ verifyingInput: Data, against signature: Data) throws -> Bool {
-        return try EC.verify(verifyingInput, against: signature, with: publicKey, and: algorithm)
+        try EC.verify(verifyingInput, against: signature, with: publicKey, and: algorithm)
     }
 }

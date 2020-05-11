@@ -23,7 +23,7 @@
 
 import Foundation
 
-/// A `Verifier` to verify a signature created with a `RSA` algorithm. 
+/// A `Verifier` to verify a signature created with a `RSA` algorithm.
 internal struct RSAVerifier: VerifierProtocol {
     typealias KeyType = RSA.KeyType
 
@@ -31,6 +31,6 @@ internal struct RSAVerifier: VerifierProtocol {
     let publicKey: KeyType
 
     func verify(_ verifyingInput: Data, against signature: Data) throws -> Bool {
-        return try RSA.verify(verifyingInput, against: signature, with: publicKey, and: algorithm)
+        try RSA.verify(verifyingInput, against: signature, with: publicKey, and: algorithm)
     }
 }

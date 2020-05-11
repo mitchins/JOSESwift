@@ -22,11 +22,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWKECDecodingTests: ECCryptoTestCase {
-
     private struct Consts {
         static let keyX = "TvQ0_muDyvS4RX9bJm8Rzy9XTpSG7xwo3Ffgu8Oq7OY"
         static let keyY = "saNr4hM3qrojSoY4eaO1WGVna5yW_I4EqdFQ4TRl8iQ"
@@ -41,24 +40,23 @@ class JWKECDecodingTests: ECCryptoTestCase {
         static let innerKeyJSON = "\"crv\":\"\(ECCurveType.P256.rawValue)\",\"kid\":\"\(kid)\""
 
         static let publicKeyJSON = """
-                            {\
-                            \(innerKeyJSONKeyType),\
-                            \(innerKeyJSON),\
-                            \(innerKeyJSONX),\
-                            \(innerKeyJSONY),\
-                            }
-                            """.data(using: .utf8)!
+        {\
+        \(innerKeyJSONKeyType),\
+        \(innerKeyJSON),\
+        \(innerKeyJSONX),\
+        \(innerKeyJSONY),\
+        }
+        """.data(using: .utf8)!
 
         static let privateKeyJSON = """
-                             {\
-                             \(innerKeyJSONKeyType),\
-                             \(innerKeyJSON),\
-                             \(innerKeyJSONX),\
-                             \(innerKeyJSONY),\
-                             \(innerKeyJSOND)\
-                             }
-                             """.data(using: .utf8)!
-
+        {\
+        \(innerKeyJSONKeyType),\
+        \(innerKeyJSON),\
+        \(innerKeyJSONX),\
+        \(innerKeyJSONY),\
+        \(innerKeyJSOND)\
+        }
+        """.data(using: .utf8)!
     }
 
     // MARK: - Public Key Tests
@@ -81,7 +79,7 @@ class JWKECDecodingTests: ECCryptoTestCase {
         let publicKeyJSONMissingKeyType = encloseJson([
             Consts.innerKeyJSON,
             Consts.innerKeyJSONX,
-            Consts.innerKeyJSONY
+            Consts.innerKeyJSONY,
         ])
         checkMissingKey(json: publicKeyJSONMissingKeyType, key: JWKParameter.keyType.rawValue)
     }
@@ -91,7 +89,7 @@ class JWKECDecodingTests: ECCryptoTestCase {
             Consts.innerKeyJSONWrongKeyType,
             Consts.innerKeyJSON,
             Consts.innerKeyJSONX,
-            Consts.innerKeyJSONY
+            Consts.innerKeyJSONY,
         ])
         checkMissingKey(json: publicKeyJSONWrongKeyType, key: JWKParameter.keyType.rawValue)
     }
@@ -100,7 +98,7 @@ class JWKECDecodingTests: ECCryptoTestCase {
         let publicKeyJSONMissingX = encloseJson([
             Consts.innerKeyJSONKeyType,
             Consts.innerKeyJSON,
-            Consts.innerKeyJSONY
+            Consts.innerKeyJSONY,
         ])
         checkMissingKey(json: publicKeyJSONMissingX, key: ECParameter.x.rawValue)
     }
@@ -109,7 +107,7 @@ class JWKECDecodingTests: ECCryptoTestCase {
         let publicKeyJSONMissingY = encloseJson([
             Consts.innerKeyJSONKeyType,
             Consts.innerKeyJSON,
-            Consts.innerKeyJSONX
+            Consts.innerKeyJSONX,
         ])
         checkMissingKey(json: publicKeyJSONMissingY, key: ECParameter.y.rawValue)
     }
@@ -119,7 +117,7 @@ class JWKECDecodingTests: ECCryptoTestCase {
 
         do {
             _ = try JSONDecoder().decode(ECPublicKey.self, from: wrongPublicKey)
-        } catch DecodingError.dataCorrupted(let context) {
+        } catch let DecodingError.dataCorrupted(context) {
             XCTAssertEqual(context.debugDescription, "The given data was not valid JSON.")
             return
         } catch {
@@ -152,7 +150,7 @@ class JWKECDecodingTests: ECCryptoTestCase {
             Consts.innerKeyJSON,
             Consts.innerKeyJSONX,
             Consts.innerKeyJSONY,
-            Consts.innerKeyJSOND
+            Consts.innerKeyJSOND,
         ])
         checkMissingKeyPrivate(json: privateKeyJSONMissingKeyType, key: JWKParameter.keyType.rawValue)
     }
@@ -163,7 +161,7 @@ class JWKECDecodingTests: ECCryptoTestCase {
             Consts.innerKeyJSON,
             Consts.innerKeyJSONX,
             Consts.innerKeyJSONY,
-            Consts.innerKeyJSOND
+            Consts.innerKeyJSOND,
         ])
         checkMissingKeyPrivate(json: privateKeyJSONWrongKeyType, key: JWKParameter.keyType.rawValue)
     }
@@ -173,7 +171,7 @@ class JWKECDecodingTests: ECCryptoTestCase {
             Consts.innerKeyJSONKeyType,
             Consts.innerKeyJSON,
             Consts.innerKeyJSONY,
-            Consts.innerKeyJSOND
+            Consts.innerKeyJSOND,
         ])
         checkMissingKeyPrivate(json: privateKeyJSONMissingX, key: ECParameter.x.rawValue)
     }
@@ -183,7 +181,7 @@ class JWKECDecodingTests: ECCryptoTestCase {
             Consts.innerKeyJSONKeyType,
             Consts.innerKeyJSON,
             Consts.innerKeyJSONX,
-            Consts.innerKeyJSOND
+            Consts.innerKeyJSOND,
         ])
         checkMissingKeyPrivate(json: privateKeyJSONMissingY, key: ECParameter.y.rawValue)
     }
@@ -193,7 +191,7 @@ class JWKECDecodingTests: ECCryptoTestCase {
             Consts.innerKeyJSONKeyType,
             Consts.innerKeyJSON,
             Consts.innerKeyJSONX,
-            Consts.innerKeyJSONY
+            Consts.innerKeyJSONY,
         ])
         checkMissingKeyPrivate(json: privateKeyJSONMissingPrivateKey, key: ECParameter.privateKey.rawValue)
     }
@@ -203,7 +201,7 @@ class JWKECDecodingTests: ECCryptoTestCase {
 
         do {
             _ = try JSONDecoder().decode(ECPrivateKey.self, from: wrongPrivateKey)
-        } catch DecodingError.dataCorrupted(let context) {
+        } catch let DecodingError.dataCorrupted(context) {
             XCTAssertEqual(context.debugDescription, "The given data was not valid JSON.")
             return
         } catch {
@@ -264,7 +262,7 @@ class JWKECDecodingTests: ECCryptoTestCase {
     private func checkMissingKey(json: Data, key: String) {
         do {
             _ = try JSONDecoder().decode(ECPublicKey.self, from: json)
-        } catch DecodingError.keyNotFound(let k, _) {
+        } catch let DecodingError.keyNotFound(k, _) {
             XCTAssertEqual(k.stringValue, key)
             return
         } catch {
@@ -277,7 +275,7 @@ class JWKECDecodingTests: ECCryptoTestCase {
     private func checkMissingKeyPrivate(json: Data, key: String) {
         do {
             _ = try JSONDecoder().decode(ECPrivateKey.self, from: json)
-        } catch DecodingError.keyNotFound(let k, _) {
+        } catch let DecodingError.keyNotFound(k, _) {
             XCTAssertEqual(k.stringValue, key)
             return
         } catch {
@@ -286,5 +284,4 @@ class JWKECDecodingTests: ECCryptoTestCase {
 
         XCTFail()
     }
-
 }

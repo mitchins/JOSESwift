@@ -22,21 +22,20 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class ECPublicKeyToDataTests: ECCryptoTestCase {
-
     func testPublicKeyToData() {
         allTestData.forEach { testData in
             let jwk = ECPublicKey(
-                    crv: ECCurveType(rawValue: testData.expectedCurveType)!,
-                    x: testData.expectedXCoordinateBase64Url,
-                    y: testData.expectedYCoordinateBase64Url)
+                crv: ECCurveType(rawValue: testData.expectedCurveType)!,
+                x: testData.expectedXCoordinateBase64Url,
+                y: testData.expectedYCoordinateBase64Url
+            )
             let data = try! jwk.converted(to: Data.self)
 
             XCTAssertEqual(data, testData.publicKeyData)
         }
     }
-
 }

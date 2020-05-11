@@ -55,7 +55,8 @@ extension KeyManagementAlgorithm {
             return AESKeyWrappingMode(
                 keyManagementAlgorithm: self,
                 contentEncryptionAlgorithm: contentEncryptionAlgorithm,
-                sharedSymmetricKey: sharedSymmetricKey)
+                sharedSymmetricKey: sharedSymmetricKey
+            )
         case .direct:
             guard let sharedSymmetricKey = cast(encryptionKey, to: DirectEncryptionMode.KeyType.self) else {
                 return nil
@@ -107,5 +108,5 @@ private func cast<GivenType, ExpectedType>(
     // A conditional downcast to the CoreFoundation type SecKey will always succeed.
     // Therfore we perform runtime type checking to guarantee that the given encryption key's type
     // matches the type that the respective key management mode expects.
-    return (type(of: something) is ExpectedType.Type) ? (something as! ExpectedType) : nil
+    (type(of: something) is ExpectedType.Type) ? (something as! ExpectedType) : nil
 }

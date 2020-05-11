@@ -23,8 +23,8 @@
 
 // swiftlint:disable force_unwrapping
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class RSAKeyManagementModeTests: RSACryptoTestCase {
     let keyManagementModeAlgorithms: [KeyManagementAlgorithm] = [.RSA1_5, .RSAOAEP, .RSAOAEP256]

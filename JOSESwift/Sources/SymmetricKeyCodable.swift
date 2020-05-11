@@ -52,7 +52,7 @@ extension SymmetricKey: Decodable {
         guard try commonParameters.decode(String.self, forKey: .keyType) == JWKKeyType.OCT.rawValue else {
             throw DecodingError.keyNotFound(
                 JWKParameter.keyType,
-                DecodingError.Context.init(
+                DecodingError.Context(
                     codingPath: [JWKParameter.keyType],
                     debugDescription: "Wrong parameter: key type"
                 )

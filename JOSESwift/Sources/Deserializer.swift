@@ -33,7 +33,7 @@ public protocol CompactDeserializer {
 }
 
 public struct JOSEDeserializer {
-    public init() { }
+    public init() {}
 
     public func deserialize<T: CompactDeserializable>(_ type: T.Type, fromCompactSerialization compactSerialization: String) throws -> T {
         let encodedComponents = compactSerialization.components(separatedBy: ".")
@@ -58,7 +58,7 @@ public struct JOSEDeserializer {
 private struct _CompactDeserializer: CompactDeserializer {
     let components: [Data]
 
-    func deserialize<T: DataConvertible>(_ type: T.Type, at index: Int) throws -> T {
+    func deserialize<T: DataConvertible>(_: T.Type, at index: Int) throws -> T {
         let componentData = components[index]
         guard let component = T(componentData) else {
             throw JOSESwiftError.componentCouldNotBeInitializedFromData(data: componentData)

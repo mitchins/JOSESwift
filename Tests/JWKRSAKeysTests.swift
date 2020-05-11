@@ -22,14 +22,13 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWKRSAKeysTests: RSACryptoTestCase {
-
     func testMergingDuplicateAdditionalParametersInPublicKey() {
         let jwk = try! RSAPublicKey(publicKey: publicKeyAlice2048!, additionalParameters: [
-            "kty": "wrongKty"
+            "kty": "wrongKty",
         ])
 
         XCTAssertEqual(jwk["kty"] ?? "", "RSA")
@@ -40,7 +39,7 @@ class JWKRSAKeysTests: RSACryptoTestCase {
             modulus: "MHZ4Li4uS2d3",
             exponent: "QVFBQg",
             privateExponent: "MHZ4Li4uS2d3",
-            additionalParameters: [ "kty": "wrongKty" ]
+            additionalParameters: ["kty": "wrongKty"]
         )
 
         XCTAssertEqual(jwk["kty"] ?? "", "RSA")
@@ -99,8 +98,8 @@ class JWKRSAKeysTests: RSACryptoTestCase {
 
     func testSettingAndGettingAdditionalParameter() {
         let jwk = try! RSAPublicKey(publicKey: publicKeyAlice2048!, additionalParameters: [
-            "kid": "new on the block"
-            ])
+            "kid": "new on the block",
+        ])
 
         XCTAssertEqual(jwk["kid"] ?? "", "new on the block")
     }
@@ -108,7 +107,7 @@ class JWKRSAKeysTests: RSACryptoTestCase {
     func testPublicKeyAllParametersArePresentInDict() {
         let jwk = try! RSAPublicKey(publicKey: publicKeyAlice2048!, additionalParameters: [
             "kid": "new on the block",
-            "use": "test"
+            "use": "test",
         ])
 
         XCTAssertEqual(jwk.parameters.count, 5)
@@ -117,8 +116,8 @@ class JWKRSAKeysTests: RSACryptoTestCase {
     func testPrivateKeyAllParametersArePresentInDict() {
         let jwk = RSAPrivateKey(modulus: "A", exponent: "B", privateExponent: "C", additionalParameters: [
             "kid": "new on the block",
-            "use": "test"
-            ])
+            "use": "test",
+        ])
 
         XCTAssertEqual(jwk.parameters.count, 6)
     }

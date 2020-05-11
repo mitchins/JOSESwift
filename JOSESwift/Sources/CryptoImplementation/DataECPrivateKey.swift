@@ -31,9 +31,9 @@ extension Data: ExpressibleAsECPrivateKeyComponents {
         let uncompressedIndication: [UInt8] = [ECCompression.Uncompressed.rawValue]
 
         guard
-                xBytes.count == yBytes.count,
-                xBytes.count == dBytes.count,
-                ECCurveType.fromCoordinateOctetLength(xBytes.count) != nil else {
+            xBytes.count == yBytes.count,
+            xBytes.count == dBytes.count,
+            ECCurveType.fromCoordinateOctetLength(xBytes.count) != nil else {
             throw JOSESwiftError.invalidCurvePointOctetLength
         }
 
@@ -52,9 +52,9 @@ extension Data: ExpressibleAsECPrivateKeyComponents {
             throw JOSESwiftError.invalidCurvePointOctetLength
         }
 
-        let xBytes = privateKeyBytes[0..<pointSize]
-        let yBytes = privateKeyBytes[pointSize..<pointSize*2]
-        let dBytes = privateKeyBytes[pointSize*2..<pointSize*3]
+        let xBytes = privateKeyBytes[0 ..< pointSize]
+        let yBytes = privateKeyBytes[pointSize ..< pointSize * 2]
+        let dBytes = privateKeyBytes[pointSize * 2 ..< pointSize * 3]
         let xData = Data(xBytes)
         let yData = Data(yBytes)
         let dData = Data(dBytes)

@@ -22,8 +22,8 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class DirectEncryptionKeyManagementModeTests: XCTestCase {
     let sharedSymmetricKey = "secret".data(using: .utf8)!
@@ -36,7 +36,6 @@ class DirectEncryptionKeyManagementModeTests: XCTestCase {
 
         XCTAssertEqual(cek1, sharedSymmetricKey)
         XCTAssertEqual(cek1, cek2)
-
     }
 
     func testEncryptedKeyIsEmpty() throws {

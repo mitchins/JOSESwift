@@ -22,11 +22,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWSValidationTests: RSACryptoTestCase {
-
     @available(*, deprecated)
     func testIsValid() {
         let jws = try! JWS(compactSerialization: compactSerializedJWSRS512Const)
@@ -153,8 +152,8 @@ class JWSValidationTests: RSACryptoTestCase {
             kSecAttrKeyClass as String: kSecAttrKeyClassPrivate,
             kSecAttrKeySizeInBits as String: 2048,
             kSecPrivateKeyAttrs as String: [
-                kSecAttrIsPermanent as String: false
-            ]
+                kSecAttrIsPermanent as String: false,
+            ],
         ]
 
         var error: Unmanaged<CFError>?
@@ -236,17 +235,16 @@ class JWSValidationTests: RSACryptoTestCase {
 
         XCTAssertFalse(jws.isValid(for: verifier))
     }
-
 }
 
 extension JOSESwiftError: Equatable {
     public static func == (lhs: JOSESwiftError, rhs: JOSESwiftError) -> Bool {
         switch (lhs, rhs) {
-        case (.verifyingFailed(let lhs), .verifyingFailed(let rhs)):
+        case let (.verifyingFailed(lhs), .verifyingFailed(rhs)):
             return lhs == rhs
-        case (.decryptingFailed(let lhs), .decryptingFailed(let rhs)):
+        case let (.decryptingFailed(lhs), .decryptingFailed(rhs)):
             return lhs == rhs
-        case (.encryptingFailed(let lhs), .encryptingFailed(let rhs)):
+        case let (.encryptingFailed(lhs), .encryptingFailed(rhs)):
             return lhs == rhs
         default:
             return lhs.localizedDescription == rhs.localizedDescription

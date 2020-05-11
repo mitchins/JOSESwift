@@ -24,10 +24,10 @@
 import Foundation
 
 // MARK: Array Extension for Encoding
+
 // Inspired by: https://github.com/henrinormak/Heimdall/blob/master/Heimdall/Heimdall.swift
 
 internal extension Array where Element == UInt8 {
-
     func encode(as type: ASN1Type) -> [UInt8] {
         var tlvTriplet: [UInt8] = []
         tlvTriplet.append(type.tag)
@@ -36,7 +36,6 @@ internal extension Array where Element == UInt8 {
 
         return tlvTriplet
     }
-
 }
 
 // MARK: Freestanding Helper Function
@@ -45,7 +44,7 @@ private func lengthField(of valueField: [UInt8]) -> [UInt8] {
     var count = valueField.count
 
     if count < 128 {
-        return [ UInt8(count) ]
+        return [UInt8(count)]
     }
 
     // The number of bytes needed to encode count.
@@ -55,9 +54,9 @@ private func lengthField(of valueField: [UInt8]) -> [UInt8] {
     let firstLengthFieldByte = UInt8(128 + lengthBytesCount)
 
     var lengthField: [UInt8] = []
-    for _ in 0..<lengthBytesCount {
+    for _ in 0 ..< lengthBytesCount {
         // Take the last 8 bits of count.
-        let lengthByte = UInt8(count & 0xff)
+        let lengthByte = UInt8(count & 0xFF)
         // Add them to the length field.
         lengthField.insert(lengthByte, at: 0)
         // Delete the last 8 bits of count.

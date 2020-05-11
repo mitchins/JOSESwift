@@ -34,7 +34,7 @@ public struct SecureRandom {
     ///
     /// - Parameter count: The count of the random generated data. Must be greater than 0.
     /// - Returns: The random generated data.
-    /// - Throws: `SecureRandomError` if any error occurs during generation of secure random bytes. 
+    /// - Throws: `SecureRandomError` if any error occurs during generation of secure random bytes.
     public static func generate(count: Int) throws -> Data {
         guard count > 0 else {
             throw SecureRandomError.countMustBeGreaterThanZero

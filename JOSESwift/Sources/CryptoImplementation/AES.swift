@@ -21,8 +21,8 @@
 //  ---------------------------------------------------------------------------
 //
 
-import Foundation
 import CommonCrypto
+import Foundation
 
 internal enum AESError: Error {
     case keyLengthNotSatisfied
@@ -32,7 +32,7 @@ internal enum AESError: Error {
     case invalidAlgorithm
 }
 
-fileprivate extension ContentEncryptionAlgorithm {
+private extension ContentEncryptionAlgorithm {
     var ccAlgorithm: CCAlgorithm {
         switch self {
         case .A256CBCHS512:
@@ -54,7 +54,7 @@ fileprivate extension ContentEncryptionAlgorithm {
     }
 }
 
-fileprivate extension KeyManagementAlgorithm {
+private extension KeyManagementAlgorithm {
     func checkAESKeyLength(for key: Data) -> Bool? {
         switch self {
         case .A128KW:
@@ -230,7 +230,7 @@ extension AES {
         }
 
         // AES's 128 block size is fixed for every key length and guaranteed not to be 0.
-        let cryptLength  = size_t(dataLength + kCCBlockSizeAES128)
+        let cryptLength = size_t(dataLength + kCCBlockSizeAES128)
         var cryptData = Data(count: cryptLength)
 
         var numBytesCrypted: size_t = 0
@@ -260,7 +260,7 @@ extension AES {
             return (nil, cryptStatus)
         }
 
-        cryptData.removeSubrange(numBytesCrypted..<cryptLength)
+        cryptData.removeSubrange(numBytesCrypted ..< cryptLength)
 
         return (cryptData, cryptStatus)
     }
@@ -305,7 +305,7 @@ extension AES {
             return (nil, status)
         }
 
-        wrappedKey.removeSubrange(wrappedKeyLength..<wrappedKey.count)
+        wrappedKey.removeSubrange(wrappedKeyLength ..< wrappedKey.count)
         return (wrappedKey, status)
     }
 
@@ -347,7 +347,7 @@ extension AES {
             return (nil, status)
         }
 
-        rawKey.removeSubrange(rawKeyLength..<rawKey.count)
+        rawKey.removeSubrange(rawKeyLength ..< rawKey.count)
         return (rawKey, status)
     }
 }

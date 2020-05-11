@@ -21,11 +21,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class ECVerifierTests: ECCryptoTestCase {
-
     override func setUp() {
         super.setUp()
     }
@@ -50,7 +49,7 @@ class ECVerifierTests: ECCryptoTestCase {
     }
 
     private func invalidateCompactSerializedJWS(_ validJWS: String) -> String {
-        return validJWS.dropLast(7).appending("INVALID")
+        validJWS.dropLast(7).appending("INVALID")
     }
 
     func testVerifying() {

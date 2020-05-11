@@ -26,16 +26,16 @@ import Security
 
 extension SecKey: ExpressibleAsECPrivateKeyComponents {
     public static func representing(ecPrivateKeyComponents components: ECPrivateKeyComponents) throws -> Self {
-        return try instantiate(type: self, from: components)
+        try instantiate(type: self, from: components)
     }
 
     // Generic helper function is needed so the compiler can infer the type of `Self`.
-    private static func instantiate<T>(type: T.Type, from components: ECPrivateKeyComponents) throws -> T {
+    private static func instantiate<T>(type _: T.Type, from components: ECPrivateKeyComponents) throws -> T {
         let keyData = try Data.representing(ecPrivateKeyComponents: components)
 
         guard
-                let keySize = ECCurveType(rawValue: components.crv)?.keyBitLength
-                else {
+            let keySize = ECCurveType(rawValue: components.crv)?.keyBitLength
+        else {
             throw JWKError.invalidECCurveType
         }
 
@@ -43,7 +43,7 @@ extension SecKey: ExpressibleAsECPrivateKeyComponents {
             kSecAttrKeyType as String: kSecAttrKeyTypeEC,
             kSecAttrKeyClass as String: kSecAttrKeyClassPrivate,
             kSecAttrKeySizeInBits as String: keySize,
-            kSecAttrIsPermanent as String: false
+            kSecAttrIsPermanent as String: false,
         ]
 
         var error: Unmanaged<CFError>?
@@ -61,12 +61,12 @@ extension SecKey: ExpressibleAsECPrivateKeyComponents {
 
     public func ecPrivateKeyComponents() throws -> ECPrivateKeyComponents {
         guard
-                let attributes = SecKeyCopyAttributes(self) as? [CFString: AnyObject],
-                let keyClass = attributes[kSecAttrKeyClass],
-                // All possible keyClasses are of type `CFString`.
-                        // swiftlint:disable:next force_cast
-                keyClass as! CFString == kSecAttrKeyClassPrivate
-                else {
+            let attributes = SecKeyCopyAttributes(self) as? [CFString: AnyObject],
+            let keyClass = attributes[kSecAttrKeyClass],
+            // All possible keyClasses are of type `CFString`.
+            // swiftlint:disable:next force_cast
+            keyClass as! CFString == kSecAttrKeyClassPrivate
+        else {
             throw JWKError.notAPrivateKey
         }
 

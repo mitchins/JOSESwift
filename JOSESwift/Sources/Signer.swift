@@ -51,13 +51,13 @@ public struct Signer<KeyType> {
                 return nil
             }
             // swiftlint:disable:next force_cast
-            self.signer = RSASigner(algorithm: signingAlgorithm, privateKey: privateKey as! RSASigner.KeyType)
+            signer = RSASigner(algorithm: signingAlgorithm, privateKey: privateKey as! RSASigner.KeyType)
         case .ES256, .ES384, .ES512:
             guard type(of: privateKey) is ECSigner.KeyType.Type else {
                 return nil
             }
             // swiftlint:disable:next force_cast
-            self.signer = ECSigner(algorithm: signingAlgorithm, privateKey: privateKey as! ECSigner.KeyType)
+            signer = ECSigner(algorithm: signingAlgorithm, privateKey: privateKey as! ECSigner.KeyType)
         }
     }
 
@@ -76,8 +76,8 @@ public struct Signer<KeyType> {
 
 extension Array where Element == DataConvertible {
     func asJOSESigningInput() -> Data? {
-        let encoded = self.map { component in
-            return component.data().base64URLEncodedString()
+        let encoded = map { component in
+            component.data().base64URLEncodedString()
         }
 
         return encoded.joined(separator: ".").data(using: .ascii)

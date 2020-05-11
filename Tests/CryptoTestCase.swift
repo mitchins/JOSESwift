@@ -47,8 +47,8 @@ class CryptoTestCase: XCTestCase {
             kSecAttrKeySizeInBits as String: size,
             kSecPrivateKeyAttrs as String: [
                 kSecAttrIsPermanent as String: false,
-                kSecAttrApplicationTag as String: tag
-            ]
+                kSecAttrApplicationTag as String: tag,
+            ],
         ]
 
         var error: Unmanaged<CFError>?
@@ -64,7 +64,6 @@ class CryptoTestCase: XCTestCase {
 }
 
 extension String {
-
     func hexadecimalToData() -> Data? {
         var data = Data(capacity: count / 2)
 
@@ -79,12 +78,11 @@ extension String {
 
         return data
     }
-
 }
 
 extension Data {
     func toHexadecimal() -> String {
-        return map { String(format: "%02x", $0) }
+        map { String(format: "%02x", $0) }
             .joined(separator: "")
     }
 }

@@ -22,11 +22,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class ECSignerTests: ECCryptoTestCase {
-
     override func setUp() {
         super.setUp()
     }

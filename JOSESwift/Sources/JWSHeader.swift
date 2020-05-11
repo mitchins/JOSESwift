@@ -85,7 +85,7 @@ extension JWSHeader {
         // Forced cast is ok here since we checked both that "alg" exists
         // and holds a `String` value in `init(parameters:)`
         // swiftlint:disable:next force_cast
-        return SignatureAlgorithm(rawValue: parameters["alg"] as! String)
+        SignatureAlgorithm(rawValue: parameters["alg"] as! String)
     }
 }
 
@@ -110,7 +110,7 @@ extension JWSHeader: CommonHeaderParameterSpace {
             parameters["jwk"] = newValue
         }
         get {
-            return parameters["jwk"] as? String
+            parameters["jwk"] as? String
         }
     }
 
@@ -120,7 +120,7 @@ extension JWSHeader: CommonHeaderParameterSpace {
             parameters["kid"] = newValue
         }
         get {
-            return parameters["kid"] as? String
+            parameters["kid"] as? String
         }
     }
 
@@ -145,7 +145,7 @@ extension JWSHeader: CommonHeaderParameterSpace {
             parameters["x5c"] = newValue
         }
         get {
-            return parameters["x5c"] as? [String]
+            parameters["x5c"] as? [String]
         }
     }
 
@@ -156,7 +156,7 @@ extension JWSHeader: CommonHeaderParameterSpace {
             parameters["x5t"] = newValue
         }
         get {
-            return parameters["x5t"] as? String
+            parameters["x5t"] as? String
         }
     }
 
@@ -167,7 +167,7 @@ extension JWSHeader: CommonHeaderParameterSpace {
             parameters["x5tS256"] = newValue
         }
         get {
-            return parameters["x5tS256"] as? String
+            parameters["x5tS256"] as? String
         }
     }
 
@@ -177,7 +177,7 @@ extension JWSHeader: CommonHeaderParameterSpace {
             parameters["typ"] = newValue
         }
         get {
-            return parameters["typ"] as? String
+            parameters["typ"] as? String
         }
     }
 
@@ -187,7 +187,7 @@ extension JWSHeader: CommonHeaderParameterSpace {
             parameters["cty"] = newValue
         }
         get {
-            return parameters["cty"] as? String
+            parameters["cty"] as? String
         }
     }
 
@@ -197,7 +197,7 @@ extension JWSHeader: CommonHeaderParameterSpace {
             parameters["crit"] = newValue
         }
         get {
-            return parameters["crit"] as? [String]
+            parameters["crit"] as? [String]
         }
     }
 }

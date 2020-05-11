@@ -31,6 +31,6 @@ internal struct ECSigner: SignerProtocol {
     let privateKey: KeyType
 
     func sign(_ signingInput: Data) throws -> Data {
-        return try EC.sign(signingInput, with: privateKey, and: algorithm)
+        try EC.sign(signingInput, with: privateKey, and: algorithm)
     }
 }

@@ -22,11 +22,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class SecKeyECPublicKeyTests: ECCryptoTestCase {
-
     func testPublicKeyComponents() {
         allTestData.forEach { testData in
             let components = try? testData.publicKey.ecPublicKeyComponents()

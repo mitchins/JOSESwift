@@ -25,7 +25,6 @@ import Foundation
 
 /// A JWK set is a structure that represents a set of JWKs.
 public struct JWKSet {
-
     /// The `keys` member is an array of JWKs.
     public let keys: [JWK]
 
@@ -61,7 +60,7 @@ public struct JWKSet {
     /// - Returns: The JSON representation of the JWK set as `Data` or
     ///            `nil` if the encoding failed.
     public func jsonData() -> Data? {
-        return try? JSONEncoder().encode(self)
+        try? JSONEncoder().encode(self)
     }
 }
 
@@ -73,23 +72,23 @@ extension JWKSet: Collection {
     public typealias Iterator = ArrayType.Iterator
 
     public var startIndex: Index {
-        return self.keys.startIndex
+        keys.startIndex
     }
 
     public var endIndex: Index {
-        return self.keys.endIndex
+        keys.endIndex
     }
 
     public subscript(index: Index) -> Element {
-        return keys[index]
+        keys[index]
     }
 
     public func index(after index: Index) -> Index {
-        return self.keys.index(after: index)
+        keys.index(after: index)
     }
 
     public func makeIterator() -> IndexingIterator<ArrayType> {
-        return self.keys.makeIterator()
+        keys.makeIterator()
     }
 }
 

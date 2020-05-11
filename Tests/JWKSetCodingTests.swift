@@ -22,37 +22,36 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWKSetCodingTests: XCTestCase {
-
     // - MARK: Test data from the JWK RFC: https://tools.ietf.org/html/rfc7517#appendix-A.
 
     let modulus = """
-        0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhD\
-        R1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6C\
-        f0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1\
-        n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1\
-        jF44-csFCur-kEgU8awapJzKnqDKgw
-        """
+    0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhD\
+    R1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6C\
+    f0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1\
+    n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1\
+    jF44-csFCur-kEgU8awapJzKnqDKgw
+    """
 
     let exponent = """
-        AQAB
-        """
+    AQAB
+    """
 
     let privateExponent = """
-        X4cTteJY_gn4FYPsXB8rdXix5vwsg1FLN5E3EaG6RJoVH-HLLKD9M7dx5oo7GURknchnrRweUkC7hT5\
-        fJLM0WbFAKNLWY2vv7B6NqXSzUvxT0_YSfqijwp3RTzlBaCxWp4doFk5N2o8Gy_nHNKroADIkJ46pRU\
-        ohsXywbReAdYaMwFs9tv8d_cPVY3i07a3t8MN6TNwm0dSawm9v47UiCl3Sk5ZiG7xojPLu4sbg1U2jx\
-        4IBTNBznbJSzFHK66jT8bgkuqsk0GjskDJk19Z4qwjwbsnn4j2WBii3RL-Us2lGVkY8fkFzme1z0HbI\
-        kfz0Y6mqnOYtqc0X4jfcKoAC8Q
-        """
+    X4cTteJY_gn4FYPsXB8rdXix5vwsg1FLN5E3EaG6RJoVH-HLLKD9M7dx5oo7GURknchnrRweUkC7hT5\
+    fJLM0WbFAKNLWY2vv7B6NqXSzUvxT0_YSfqijwp3RTzlBaCxWp4doFk5N2o8Gy_nHNKroADIkJ46pRU\
+    ohsXywbReAdYaMwFs9tv8d_cPVY3i07a3t8MN6TNwm0dSawm9v47UiCl3Sk5ZiG7xojPLu4sbg1U2jx\
+    4IBTNBznbJSzFHK66jT8bgkuqsk0GjskDJk19Z4qwjwbsnn4j2WBii3RL-Us2lGVkY8fkFzme1z0HbI\
+    kfz0Y6mqnOYtqc0X4jfcKoAC8Q
+    """
 
     let additionalParametersRSA = [
         "kty": "RSA",
         "alg": "RS256",
-        "kid": "2011-04-29"
+        "kid": "2011-04-29",
     ]
 
     let firstSymmetricKey = Data(
@@ -61,7 +60,7 @@ class JWKSetCodingTests: XCTestCase {
 
     let firstAdditionalParametersOct = [
         "kty": "oct",
-        "alg": "A128KW"
+        "alg": "A128KW",
     ]
 
     let secondSymmetricKey = Data(
@@ -70,84 +69,84 @@ class JWKSetCodingTests: XCTestCase {
 
     let secondAdditionalParametersOct = [
         "kty": "oct",
-        "kid": "HMAC key used in JWS spec Appendix A.1 example"
+        "kid": "HMAC key used in JWS spec Appendix A.1 example",
     ]
 
     let testDataOneRSAPublicKey = """
-        {"keys":[{"alg":"RS256","e":"AQAB","kid":"2011-04-29","kty":"RSA","n":"0vx7agoe\
-        bGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_\
-        BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-\
-        65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD\
-        08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-\
-        kEgU8awapJzKnqDKgw"}]}
-        """.data(using: .utf8)!
+    {"keys":[{"alg":"RS256","e":"AQAB","kid":"2011-04-29","kty":"RSA","n":"0vx7agoe\
+    bGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_\
+    BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-\
+    65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD\
+    08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-\
+    kEgU8awapJzKnqDKgw"}]}
+    """.data(using: .utf8)!
 
     let testDataTwoRSAPublicKeys = """
-        {"keys":[{"alg":"RS256","e":"AQAB","kid":"2011-04-29","kty":"RSA","n":"0vx7agoe\
-        bGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_\
-        BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-\
-        65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD\
-        08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-\
-        kEgU8awapJzKnqDKgw"},{"alg":"RS256","e":"AQAB","kid":"2011-04-29","kty":"RSA","\
-        n":"0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFx\
-        uhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w\
-        6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn\
-        1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1\
-        jF44-csFCur-kEgU8awapJzKnqDKgw"}]}
-        """.data(using: .utf8)!
+    {"keys":[{"alg":"RS256","e":"AQAB","kid":"2011-04-29","kty":"RSA","n":"0vx7agoe\
+    bGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_\
+    BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-\
+    65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD\
+    08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-\
+    kEgU8awapJzKnqDKgw"},{"alg":"RS256","e":"AQAB","kid":"2011-04-29","kty":"RSA","\
+    n":"0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFx\
+    uhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w\
+    6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn\
+    1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1\
+    jF44-csFCur-kEgU8awapJzKnqDKgw"}]}
+    """.data(using: .utf8)!
 
     let testDataRSAPublicAndPrivateKey = """
-        {"keys":[{"alg":"RS256","e":"AQAB","kid":"2011-04-29","kty":"RSA","n":"0vx7agoe\
-        bGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_\
-        BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-\
-        65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD\
-        08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-\
-        kEgU8awapJzKnqDKgw"},{"alg":"RS256","d":"X4cTteJY_gn4FYPsXB8rdXix5vwsg1FLN5E3Ea\
-        G6RJoVH-HLLKD9M7dx5oo7GURknchnrRweUkC7hT5fJLM0WbFAKNLWY2vv7B6NqXSzUvxT0_YSfqijw\
-        p3RTzlBaCxWp4doFk5N2o8Gy_nHNKroADIkJ46pRUohsXywbReAdYaMwFs9tv8d_cPVY3i07a3t8MN6\
-        TNwm0dSawm9v47UiCl3Sk5ZiG7xojPLu4sbg1U2jx4IBTNBznbJSzFHK66jT8bgkuqsk0GjskDJk19Z\
-        4qwjwbsnn4j2WBii3RL-Us2lGVkY8fkFzme1z0HbIkfz0Y6mqnOYtqc0X4jfcKoAC8Q","e":"AQAB"\
-        ,"kid":"2011-04-29","kty":"RSA","n":"0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFb\
-        WhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ\
-        _2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8\
-        KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4l\
-        Fd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw"}]}
-        """.data(using: .utf8)!
+    {"keys":[{"alg":"RS256","e":"AQAB","kid":"2011-04-29","kty":"RSA","n":"0vx7agoe\
+    bGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_\
+    BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-\
+    65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD\
+    08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-\
+    kEgU8awapJzKnqDKgw"},{"alg":"RS256","d":"X4cTteJY_gn4FYPsXB8rdXix5vwsg1FLN5E3Ea\
+    G6RJoVH-HLLKD9M7dx5oo7GURknchnrRweUkC7hT5fJLM0WbFAKNLWY2vv7B6NqXSzUvxT0_YSfqijw\
+    p3RTzlBaCxWp4doFk5N2o8Gy_nHNKroADIkJ46pRUohsXywbReAdYaMwFs9tv8d_cPVY3i07a3t8MN6\
+    TNwm0dSawm9v47UiCl3Sk5ZiG7xojPLu4sbg1U2jx4IBTNBznbJSzFHK66jT8bgkuqsk0GjskDJk19Z\
+    4qwjwbsnn4j2WBii3RL-Us2lGVkY8fkFzme1z0HbIkfz0Y6mqnOYtqc0X4jfcKoAC8Q","e":"AQAB"\
+    ,"kid":"2011-04-29","kty":"RSA","n":"0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFb\
+    WhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ\
+    _2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8\
+    KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4l\
+    Fd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw"}]}
+    """.data(using: .utf8)!
 
     let testDataOneSymmetricKey = """
-        {"keys":[{"alg":"A128KW","k":"GawgguFyGrWKav7AX4VKUg","kty":"oct"}]}
-        """.data(using: .utf8)!
+    {"keys":[{"alg":"A128KW","k":"GawgguFyGrWKav7AX4VKUg","kty":"oct"}]}
+    """.data(using: .utf8)!
 
     let testDataTwoSymmetricKeys = """
-        {"keys":[{"alg":"A128KW","k":"GawgguFyGrWKav7AX4VKUg","kty":"oct"},{"k":"AyM1Sys\
-        PpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow"\
-        ,"kid":"HMAC key used in JWS spec Appendix A.1 example","kty":"oct"}]}
-        """.data(using: .utf8)!
+    {"keys":[{"alg":"A128KW","k":"GawgguFyGrWKav7AX4VKUg","kty":"oct"},{"k":"AyM1Sys\
+    PpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow"\
+    ,"kid":"HMAC key used in JWS spec Appendix A.1 example","kty":"oct"}]}
+    """.data(using: .utf8)!
 
     let testDataRSAPublicAndPrivateAndSymmetricKey = """
-        {"keys":[{"alg":"RS256","e":"AQAB","kid":"2011-04-29","kty":"RSA","n":"0vx7agoe\
-        bGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_\
-        BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-\
-        65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD\
-        08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-\
-        kEgU8awapJzKnqDKgw"},{"alg":"RS256","d":"X4cTteJY_gn4FYPsXB8rdXix5vwsg1FLN5E3Ea\
-        G6RJoVH-HLLKD9M7dx5oo7GURknchnrRweUkC7hT5fJLM0WbFAKNLWY2vv7B6NqXSzUvxT0_YSfqijw\
-        p3RTzlBaCxWp4doFk5N2o8Gy_nHNKroADIkJ46pRUohsXywbReAdYaMwFs9tv8d_cPVY3i07a3t8MN6\
-        TNwm0dSawm9v47UiCl3Sk5ZiG7xojPLu4sbg1U2jx4IBTNBznbJSzFHK66jT8bgkuqsk0GjskDJk19Z\
-        4qwjwbsnn4j2WBii3RL-Us2lGVkY8fkFzme1z0HbIkfz0Y6mqnOYtqc0X4jfcKoAC8Q","e":"AQAB"\
-        ,"kid":"2011-04-29","kty":"RSA","n":"0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFb\
-        WhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ\
-        _2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8\
-        KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4l\
-        Fd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw"},{"alg":"A128K\
-        W","k":"GawgguFyGrWKav7AX4VKUg","kty":"oct"}]}
-        """.data(using: .utf8)!
+    {"keys":[{"alg":"RS256","e":"AQAB","kid":"2011-04-29","kty":"RSA","n":"0vx7agoe\
+    bGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_\
+    BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-\
+    65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD\
+    08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-\
+    kEgU8awapJzKnqDKgw"},{"alg":"RS256","d":"X4cTteJY_gn4FYPsXB8rdXix5vwsg1FLN5E3Ea\
+    G6RJoVH-HLLKD9M7dx5oo7GURknchnrRweUkC7hT5fJLM0WbFAKNLWY2vv7B6NqXSzUvxT0_YSfqijw\
+    p3RTzlBaCxWp4doFk5N2o8Gy_nHNKroADIkJ46pRUohsXywbReAdYaMwFs9tv8d_cPVY3i07a3t8MN6\
+    TNwm0dSawm9v47UiCl3Sk5ZiG7xojPLu4sbg1U2jx4IBTNBznbJSzFHK66jT8bgkuqsk0GjskDJk19Z\
+    4qwjwbsnn4j2WBii3RL-Us2lGVkY8fkFzme1z0HbIkfz0Y6mqnOYtqc0X4jfcKoAC8Q","e":"AQAB"\
+    ,"kid":"2011-04-29","kty":"RSA","n":"0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFb\
+    WhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ\
+    _2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8\
+    KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4l\
+    Fd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw"},{"alg":"A128K\
+    W","k":"GawgguFyGrWKav7AX4VKUg","kty":"oct"}]}
+    """.data(using: .utf8)!
 
     // - MARK: Encoding Tests
 
     func testEncodingOneRSAPublicKey() {
         let set: JWKSet = [
-            RSAPublicKey(modulus: modulus, exponent: exponent, additionalParameters: additionalParametersRSA)
+            RSAPublicKey(modulus: modulus, exponent: exponent, additionalParameters: additionalParametersRSA),
         ]
 
         let encoder = JSONEncoder()
@@ -166,7 +165,7 @@ class JWKSetCodingTests: XCTestCase {
 
     func testEncodingOneSymmetricKey() {
         let set: JWKSet = [
-            SymmetricKey(key: firstSymmetricKey, additionalParameters: firstAdditionalParametersOct)
+            SymmetricKey(key: firstSymmetricKey, additionalParameters: firstAdditionalParametersOct),
         ]
 
         let encoder = JSONEncoder()
@@ -186,7 +185,7 @@ class JWKSetCodingTests: XCTestCase {
     func testEncodingTwoSymmetricKeys() {
         let set: JWKSet = [
             SymmetricKey(key: firstSymmetricKey, additionalParameters: firstAdditionalParametersOct),
-            SymmetricKey(key: secondSymmetricKey, additionalParameters: secondAdditionalParametersOct)
+            SymmetricKey(key: secondSymmetricKey, additionalParameters: secondAdditionalParametersOct),
         ]
 
         let encoder = JSONEncoder()
@@ -206,7 +205,7 @@ class JWKSetCodingTests: XCTestCase {
     func testEncodingTwoRSAPublicKeys() {
         let set: JWKSet = [
             RSAPublicKey(modulus: modulus, exponent: exponent, additionalParameters: additionalParametersRSA),
-            RSAPublicKey(modulus: modulus, exponent: exponent, additionalParameters: additionalParametersRSA)
+            RSAPublicKey(modulus: modulus, exponent: exponent, additionalParameters: additionalParametersRSA),
         ]
 
         let encoder = JSONEncoder()
@@ -226,7 +225,7 @@ class JWKSetCodingTests: XCTestCase {
     func testEncodingRSAPublicAndPrivateKey() {
         let set: JWKSet = [
             RSAPublicKey(modulus: modulus, exponent: exponent, additionalParameters: additionalParametersRSA),
-            RSAPrivateKey(modulus: modulus, exponent: exponent, privateExponent: privateExponent, additionalParameters: additionalParametersRSA)
+            RSAPrivateKey(modulus: modulus, exponent: exponent, privateExponent: privateExponent, additionalParameters: additionalParametersRSA),
         ]
 
         let encoder = JSONEncoder()
@@ -247,7 +246,7 @@ class JWKSetCodingTests: XCTestCase {
         let set: JWKSet = [
             RSAPublicKey(modulus: modulus, exponent: exponent, additionalParameters: additionalParametersRSA),
             RSAPrivateKey(modulus: modulus, exponent: exponent, privateExponent: privateExponent, additionalParameters: additionalParametersRSA),
-            SymmetricKey(key: firstSymmetricKey, additionalParameters: firstAdditionalParametersOct)
+            SymmetricKey(key: firstSymmetricKey, additionalParameters: firstAdditionalParametersOct),
         ]
 
         let encoder = JSONEncoder()

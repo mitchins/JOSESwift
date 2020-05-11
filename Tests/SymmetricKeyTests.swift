@@ -22,21 +22,20 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class SymmetricKeyTests: XCTestCase {
-
     func testCreatingSymmetricKeyFromData() {
         // Example key data from https://tools.ietf.org/html/rfc7517#appendix-A.3 but with different "alg" parameter
         // because we don't (yet) support "A128KW".
         let key = Data([
-            0x19, 0xac, 0x20, 0x82, 0xe1, 0x72, 0x1a, 0xb5, 0x8a, 0x6a, 0xfe, 0xc0, 0x5f, 0x85, 0x4a, 0x52
+            0x19, 0xAC, 0x20, 0x82, 0xE1, 0x72, 0x1A, 0xB5, 0x8A, 0x6A, 0xFE, 0xC0, 0x5F, 0x85, 0x4A, 0x52,
         ])
 
         let jwk = SymmetricKey(
             key: key,
-            additionalParameters: [ "alg": ContentEncryptionAlgorithm.A256CBCHS512.rawValue ]
+            additionalParameters: ["alg": ContentEncryptionAlgorithm.A256CBCHS512.rawValue]
         )
 
         XCTAssertEqual(jwk.key, "GawgguFyGrWKav7AX4VKUg")
@@ -51,12 +50,12 @@ class SymmetricKeyTests: XCTestCase {
 
     func testParsingSymmetricKeyFromJSONData() {
         let key = Data([
-            0x19, 0xac, 0x20, 0x82, 0xe1, 0x72, 0x1a, 0xb5, 0x8a, 0x6a, 0xfe, 0xc0, 0x5f, 0x85, 0x4a, 0x52
+            0x19, 0xAC, 0x20, 0x82, 0xE1, 0x72, 0x1A, 0xB5, 0x8A, 0x6A, 0xFE, 0xC0, 0x5F, 0x85, 0x4A, 0x52,
         ])
 
         let json = SymmetricKey(
             key: key,
-            additionalParameters: [ "alg": ContentEncryptionAlgorithm.A256CBCHS512.rawValue ]
+            additionalParameters: ["alg": ContentEncryptionAlgorithm.A256CBCHS512.rawValue]
         ).jsonData()!
 
         let jwk = try! SymmetricKey(data: json)
@@ -73,12 +72,12 @@ class SymmetricKeyTests: XCTestCase {
 
     func testParsingSymmetricKeyFromOtherKeyRepresentation() {
         let key: ExpressibleAsSymmetricKeyComponents = Data([
-            0x19, 0xac, 0x20, 0x82, 0xe1, 0x72, 0x1a, 0xb5, 0x8a, 0x6a, 0xfe, 0xc0, 0x5f, 0x85, 0x4a, 0x52
+            0x19, 0xAC, 0x20, 0x82, 0xE1, 0x72, 0x1A, 0xB5, 0x8A, 0x6A, 0xFE, 0xC0, 0x5F, 0x85, 0x4A, 0x52,
         ])
 
         let json = try! SymmetricKey(
             key: key,
-            additionalParameters: [ "alg": ContentEncryptionAlgorithm.A256CBCHS512.rawValue ]
+            additionalParameters: ["alg": ContentEncryptionAlgorithm.A256CBCHS512.rawValue]
         ).jsonData()!
 
         let jwk = try! SymmetricKey(data: json)
@@ -95,8 +94,8 @@ class SymmetricKeyTests: XCTestCase {
 
     func testSymmetricKeyToData() {
         let key = Data([
-            0x19, 0xac, 0x20, 0x82, 0xe1, 0x72, 0x1a, 0xb5, 0x8a, 0x6a, 0xfe, 0xc0, 0x5f, 0x85, 0x4a, 0x52
-            ])
+            0x19, 0xAC, 0x20, 0x82, 0xE1, 0x72, 0x1A, 0xB5, 0x8A, 0x6A, 0xFE, 0xC0, 0x5F, 0x85, 0x4A, 0x52,
+        ])
 
         let jwk = SymmetricKey(key: key)
 
@@ -122,5 +121,4 @@ class SymmetricKeyTests: XCTestCase {
 
         XCTAssertThrowsError(try SymmetricKey(data: json))
     }
-
 }

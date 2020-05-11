@@ -22,11 +22,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class DataRSAPublicKeyTests: RSACryptoTestCase {
-
     func testLeadingZeroDropped() {
         let components = try! publicKeyAlice2048Data.rsaPublicKeyComponents()
 
@@ -91,5 +90,4 @@ class DataRSAPublicKeyTests: RSACryptoTestCase {
 
         XCTAssertEqual(data, expectedData)
     }
-
 }

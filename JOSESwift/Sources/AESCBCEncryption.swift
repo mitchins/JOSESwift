@@ -114,7 +114,7 @@ extension AESCBCEncryption: ContentEncrypter {
 
 extension AESCBCEncryption: ContentDecrypter {
     func decrypt(decryptionContext: ContentDecryptionContext) throws -> Data {
-        return try decrypt(
+        try decrypt(
             decryptionContext.ciphertext,
             initializationVector: decryptionContext.initializationVector,
             additionalAuthenticatedData: decryptionContext.additionalAuthenticatedData,

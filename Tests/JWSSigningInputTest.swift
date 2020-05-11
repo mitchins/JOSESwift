@@ -22,11 +22,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWSSigningInputTest: XCTestCase {
-
     let header: JWSHeader = JWSHeader("{\"typ\":\"JWT\",\r\n \"alg\":\"HS256\"}".data(using: .utf8)!)!
     let payload: Payload = Payload("{\"iss\":\"joe\",\r\n \"exp\":1300819380,\r\n \"http://example.com/is_root\":true}".data(using: .utf8)!)
 
@@ -39,12 +38,11 @@ class JWSSigningInputTest: XCTestCase {
         107, 122, 79, 68, 65, 115, 68, 81, 111, 103, 73, 109, 104, 48, 100,
         72, 65, 54, 76, 121, 57, 108, 101, 71, 70, 116, 99, 71, 120, 108, 76,
         109, 78, 118, 98, 83, 57, 112, 99, 49, 57, 121, 98, 50, 57, 48, 73,
-        106, 112, 48, 99, 110, 86, 108, 102, 81
+        106, 112, 48, 99, 110, 86, 108, 102, 81,
     ]
 
     func testSigningInputComputation() {
         let signingInput: [UInt8] = Array([header, payload].asJOSESigningInput()!)
         XCTAssertEqual(signingInput, expectedSigningInput)
     }
-
 }

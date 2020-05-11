@@ -22,8 +22,8 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWEHeaderTests: XCTestCase {
     let parameterDictRSA = ["alg": "RSA1_5", "enc": "A256CBC-HS512"]
@@ -156,7 +156,7 @@ class JWEHeaderTests: XCTestCase {
     func testInitWithMissingRequiredEncParameter() {
         do {
             _ = try JWEHeader(parameters: ["alg": "RSA-OAEP"], headerData: try! JSONSerialization.data(withJSONObject: ["alg": "RSA1_5"], options: []))
-        } catch HeaderParsingError.requiredHeaderParameterMissing(let parameter) {
+        } catch let HeaderParsingError.requiredHeaderParameterMissing(parameter) {
             XCTAssertEqual(parameter, "enc")
             return
         } catch {
@@ -169,7 +169,7 @@ class JWEHeaderTests: XCTestCase {
     func testInitDirectlyWithMissingRequiredAlgParameter() {
         do {
             _ = try JWEHeader(parameters: ["enc": "something"], headerData: try! JSONSerialization.data(withJSONObject: ["enc": "something"], options: []))
-        } catch HeaderParsingError.requiredHeaderParameterMissing(let parameter) {
+        } catch let HeaderParsingError.requiredHeaderParameterMissing(parameter) {
             XCTAssertEqual(parameter, "alg")
             return
         } catch {
@@ -182,7 +182,7 @@ class JWEHeaderTests: XCTestCase {
     func testInitWithMissingRequiredAlgParameter() {
         do {
             _ = try JWEHeader(parameters: ["enc": "something"])
-        } catch HeaderParsingError.requiredHeaderParameterMissing(let parameter) {
+        } catch let HeaderParsingError.requiredHeaderParameterMissing(parameter) {
             XCTAssertEqual(parameter, "alg")
             return
         } catch {

@@ -21,11 +21,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class DataECPrivateKeyTests: ECCryptoTestCase {
-
     func testPrivateKeyCoordinates() {
         allTestData.forEach { testData in
             let components = _getComponents(testData: testData)
@@ -45,10 +44,10 @@ class DataECPrivateKeyTests: ECCryptoTestCase {
     func testDataFromPrivateKeyComponents() {
         allTestData.forEach { testData in
             let components = (
-                    testData.expectedCurveType,
-                    testData.expectedXCoordinate,
-                    testData.expectedYCoordinate,
-                    testData.expectedPrivateOctetString
+                testData.expectedCurveType,
+                testData.expectedXCoordinate,
+                testData.expectedYCoordinate,
+                testData.expectedPrivateOctetString
             )
             let data = try! Data.representing(ecPrivateKeyComponents: components)
             XCTAssertEqual(data, testData.privateKeyData)
@@ -64,11 +63,11 @@ class DataECPrivateKeyTests: ECCryptoTestCase {
                 }
             }
             checkInvalidDataToPrivateKey(
-                    compression: UInt8(0x03),
-                    x: testData.expectedXCoordinate,
-                    y: testData.expectedYCoordinate,
-                    d: testData.expectedPrivateOctetString,
-                    errorHandler: errorHandler
+                compression: UInt8(0x03),
+                x: testData.expectedXCoordinate,
+                y: testData.expectedYCoordinate,
+                d: testData.expectedPrivateOctetString,
+                errorHandler: errorHandler
             )
         }
     }
@@ -82,11 +81,11 @@ class DataECPrivateKeyTests: ECCryptoTestCase {
                 }
             }
             checkInvalidDataToPrivateKey(
-                    compression: UInt8(0x04),
-                    x: testData.expectedXCoordinate,
-                    y: testData.expectedYCoordinate,
-                    d: testData.expectedPrivateOctetString.dropLast(),
-                    errorHandler: errorHandler
+                compression: UInt8(0x04),
+                x: testData.expectedXCoordinate,
+                y: testData.expectedYCoordinate,
+                d: testData.expectedPrivateOctetString.dropLast(),
+                errorHandler: errorHandler
             )
         }
     }
@@ -99,14 +98,14 @@ class DataECPrivateKeyTests: ECCryptoTestCase {
             }
         }
         let components = (
-                p256.expectedCurveType,
-                p256.expectedXCoordinate,
-                p256.expectedYCoordinate,
-                p256.expectedPrivateOctetString.dropLast()
+            p256.expectedCurveType,
+            p256.expectedXCoordinate,
+            p256.expectedYCoordinate,
+            p256.expectedPrivateOctetString.dropLast()
         )
         XCTAssertThrowsError(
-                try Data.representing(ecPrivateKeyComponents: components),
-                "No error thrown for invalid point data"
+            try Data.representing(ecPrivateKeyComponents: components),
+            "No error thrown for invalid point data"
         ) { error in errorHandler(error) }
     }
 
@@ -121,17 +120,16 @@ class DataECPrivateKeyTests: ECCryptoTestCase {
     }
 
     private func checkInvalidDataToPrivateKey(
-            compression: UInt8,
-            x: Data,
-            y: Data,
-            d: Data,
-            errorHandler: (Error) -> Void
+        compression: UInt8,
+        x: Data,
+        y: Data,
+        d: Data,
+        errorHandler: (Error) -> Void
     ) {
         let keyData = ECTestKeyData.createKeyData(compression: compression, x: x, y: y, privateKey: d)
         XCTAssertThrowsError(
-                try keyData.ecPrivateKeyComponents(),
-                "No error thrown for invalid point data"
+            try keyData.ecPrivateKeyComponents(),
+            "No error thrown for invalid point data"
         ) { error in errorHandler(error) }
     }
-
 }

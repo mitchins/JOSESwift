@@ -21,11 +21,10 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class DataECPublicKeyTests: ECCryptoTestCase {
-
     func testPublicKeyCoordinates() {
         allTestData.forEach { testData in
             let components = _getComponents(testData: testData)
@@ -58,10 +57,10 @@ class DataECPublicKeyTests: ECCryptoTestCase {
                 }
             }
             checkInvalidDataToPublicKey(
-                    compression: UInt8(0x03),
-                    x: testData.expectedXCoordinate,
-                    y: testData.expectedYCoordinate,
-                    errorHandler: errorHandler
+                compression: UInt8(0x03),
+                x: testData.expectedXCoordinate,
+                y: testData.expectedYCoordinate,
+                errorHandler: errorHandler
             )
         }
     }
@@ -75,10 +74,10 @@ class DataECPublicKeyTests: ECCryptoTestCase {
                 }
             }
             checkInvalidDataToPublicKey(
-                    compression: UInt8(0x04),
-                    x: testData.expectedXCoordinate,
-                    y: testData.expectedYCoordinate.dropLast(),
-                    errorHandler: errorHandler
+                compression: UInt8(0x04),
+                x: testData.expectedXCoordinate,
+                y: testData.expectedYCoordinate.dropLast(),
+                errorHandler: errorHandler
             )
         }
     }
@@ -96,9 +95,8 @@ class DataECPublicKeyTests: ECCryptoTestCase {
     private func checkInvalidDataToPublicKey(compression: UInt8, x: Data, y: Data, errorHandler: (Error) -> Void) {
         let keyData = ECTestKeyData.createKeyData(compression: compression, x: x, y: y, privateKey: nil)
         XCTAssertThrowsError(
-                try keyData.ecPublicKeyComponents(),
-                "No error thrown for invalid point data"
+            try keyData.ecPublicKeyComponents(),
+            "No error thrown for invalid point data"
         ) { error in errorHandler(error) }
     }
-
 }

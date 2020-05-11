@@ -26,11 +26,11 @@ import Security
 
 extension SecKey: ExpressibleAsRSAPublicKeyComponents {
     public static func representing(rsaPublicKeyComponents components: RSAPublicKeyComponents) throws -> Self {
-        return try instantiate(type: self, from: components)
+        try instantiate(type: self, from: components)
     }
 
     // Generic helper function is needed so the compiler can infer the type of `Self`.
-    private static func instantiate<T>(type: T.Type, from components: RSAPublicKeyComponents) throws -> T {
+    private static func instantiate<T>(type _: T.Type, from components: RSAPublicKeyComponents) throws -> T {
         let keyData = try Data.representing(rsaPublicKeyComponents: components)
 
         // RSA key size is the number of bits of the modulus.
@@ -40,7 +40,7 @@ extension SecKey: ExpressibleAsRSAPublicKeyComponents {
             kSecAttrKeyType as String: kSecAttrKeyTypeRSA,
             kSecAttrKeyClass as String: kSecAttrKeyClassPublic,
             kSecAttrKeySizeInBits as String: keySize,
-            kSecAttrIsPermanent as String: false
+            kSecAttrIsPermanent as String: false,
         ]
 
         var error: Unmanaged<CFError>?

@@ -73,7 +73,7 @@ extension JWKSet: Encodable {
         var container = encoder.container(keyedBy: JWKSetParameter.self)
         var keyContainer = container.nestedUnkeyedContainer(forKey: .keys)
 
-        for key in self.keys {
+        for key in keys {
             switch key {
             case is RSAPublicKey:
                 // swiftlint:disable:next force_cast
@@ -104,7 +104,6 @@ extension JWKSet: Decodable {
 
         var keys: [JWK] = []
         while !keyContainer.isAtEnd {
-
             var maybeKey: JWK?
 
             do {

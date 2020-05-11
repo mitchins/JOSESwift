@@ -22,9 +22,9 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
-@testable import JOSESwift
 import CommonCrypto
+@testable import JOSESwift
+import XCTest
 
 class AESCBCContentDecryptionTests: XCTestCase {
     /// Tests the `AES` decryption implementation for AES_128_CBC_HMAC_SHA_256 with the test data provided in the [RFC-7518](https://tools.ietf.org/html/rfc7518#appendix-B.1).

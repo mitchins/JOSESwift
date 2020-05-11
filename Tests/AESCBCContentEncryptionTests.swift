@@ -22,9 +22,9 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
-@testable import JOSESwift
 import CommonCrypto
+@testable import JOSESwift
+import XCTest
 
 class AESCBCContentEncryptionTests: XCTestCase {
     /// Tests the `AES` encryption implementation for AES_128_CBC_HMAC_SHA_256 with the test data provided in the [RFC-7518](https://tools.ietf.org/html/rfc7518#appendix-B.1).
@@ -57,20 +57,20 @@ class AESCBCContentEncryptionTests: XCTestCase {
             }
         }
 
-        XCTAssertEqual(macOutData.subdata(in: 0..<16), symmetricEncryptionContext.authenticationTag)
+        XCTAssertEqual(macOutData.subdata(in: 0 ..< 16), symmetricEncryptionContext.authenticationTag)
 
         let dataLength = symmetricEncryptionContext.ciphertext.count
-        let cryptLength  = size_t(dataLength + kCCBlockSizeAES128)
+        let cryptLength = size_t(dataLength + kCCBlockSizeAES128)
         var cryptData = Data(count: cryptLength)
 
         let options = CCOptions(kCCOptionPKCS7Padding)
 
         var numBytesEncrypted: size_t = 0
 
-        let cryptStatus = cryptData.withUnsafeMutableBytes {cryptBytes in
-            symmetricEncryptionContext.ciphertext.withUnsafeBytes {dataBytes in
-                symmetricEncryptionContext.initializationVector.withUnsafeBytes {ivBytes in
-                    encryptionKey.withUnsafeBytes {keyBytes in
+        let cryptStatus = cryptData.withUnsafeMutableBytes { cryptBytes in
+            symmetricEncryptionContext.ciphertext.withUnsafeBytes { dataBytes in
+                symmetricEncryptionContext.initializationVector.withUnsafeBytes { ivBytes in
+                    encryptionKey.withUnsafeBytes { keyBytes in
                         CCCrypt(CCOperation(kCCDecrypt),
                                 CCAlgorithm(kCCAlgorithmAES128),
                                 options,
@@ -85,7 +85,7 @@ class AESCBCContentEncryptionTests: XCTestCase {
         }
 
         if UInt32(cryptStatus) == UInt32(kCCSuccess) {
-            cryptData.removeSubrange(numBytesEncrypted..<cryptData.count)
+            cryptData.removeSubrange(numBytesEncrypted ..< cryptData.count)
         }
 
         XCTAssertEqual(cryptData, plaintext)
@@ -131,20 +131,20 @@ class AESCBCContentEncryptionTests: XCTestCase {
             }
         }
 
-        XCTAssertEqual(macOutData.subdata(in: 0..<32), symmetricEncryptionContext.authenticationTag)
+        XCTAssertEqual(macOutData.subdata(in: 0 ..< 32), symmetricEncryptionContext.authenticationTag)
 
         let dataLength = symmetricEncryptionContext.ciphertext.count
-        let cryptLength  = size_t(dataLength + kCCBlockSizeAES128)
+        let cryptLength = size_t(dataLength + kCCBlockSizeAES128)
         var cryptData = Data(count: cryptLength)
 
         let options = CCOptions(kCCOptionPKCS7Padding)
 
         var numBytesEncrypted: size_t = 0
 
-        let cryptStatus = cryptData.withUnsafeMutableBytes {cryptBytes in
-            symmetricEncryptionContext.ciphertext.withUnsafeBytes {dataBytes in
-                symmetricEncryptionContext.initializationVector.withUnsafeBytes {ivBytes in
-                    encryptionKey.withUnsafeBytes {keyBytes in
+        let cryptStatus = cryptData.withUnsafeMutableBytes { cryptBytes in
+            symmetricEncryptionContext.ciphertext.withUnsafeBytes { dataBytes in
+                symmetricEncryptionContext.initializationVector.withUnsafeBytes { ivBytes in
+                    encryptionKey.withUnsafeBytes { keyBytes in
                         CCCrypt(CCOperation(kCCDecrypt),
                                 CCAlgorithm(kCCAlgorithmAES128),
                                 options,
@@ -159,7 +159,7 @@ class AESCBCContentEncryptionTests: XCTestCase {
         }
 
         if UInt32(cryptStatus) == UInt32(kCCSuccess) {
-            cryptData.removeSubrange(numBytesEncrypted..<cryptData.count)
+            cryptData.removeSubrange(numBytesEncrypted ..< cryptData.count)
         }
 
         XCTAssertEqual(cryptData, plaintext)
@@ -172,7 +172,7 @@ class AESCBCContentEncryptionTests: XCTestCase {
         let cek = Data([UInt8]([
             4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106,
             206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156,
-            44, 207
+            44, 207,
         ]))
 
         let symmetricEncryptionContext = try AESCBCEncryption(contentEncryptionAlgorithm: .A128CBCHS256, contentEncryptionKey: cek)
@@ -201,20 +201,20 @@ class AESCBCContentEncryptionTests: XCTestCase {
             }
         }
 
-        XCTAssertEqual(macOutData.subdata(in: 0..<16), symmetricEncryptionContext.authenticationTag)
+        XCTAssertEqual(macOutData.subdata(in: 0 ..< 16), symmetricEncryptionContext.authenticationTag)
 
         let dataLength = symmetricEncryptionContext.ciphertext.count
-        let cryptLength  = size_t(dataLength + kCCBlockSizeAES128)
+        let cryptLength = size_t(dataLength + kCCBlockSizeAES128)
         var cryptData = Data(count: cryptLength)
 
         let options = CCOptions(kCCOptionPKCS7Padding)
 
         var numBytesEncrypted: size_t = 0
 
-        let cryptStatus = cryptData.withUnsafeMutableBytes {cryptBytes in
-            symmetricEncryptionContext.ciphertext.withUnsafeBytes {dataBytes in
-                symmetricEncryptionContext.initializationVector.withUnsafeBytes {ivBytes in
-                    encryptionKey.withUnsafeBytes {keyBytes in
+        let cryptStatus = cryptData.withUnsafeMutableBytes { cryptBytes in
+            symmetricEncryptionContext.ciphertext.withUnsafeBytes { dataBytes in
+                symmetricEncryptionContext.initializationVector.withUnsafeBytes { ivBytes in
+                    encryptionKey.withUnsafeBytes { keyBytes in
                         CCCrypt(CCOperation(kCCDecrypt),
                                 CCAlgorithm(kCCAlgorithmAES128),
                                 options,
@@ -229,7 +229,7 @@ class AESCBCContentEncryptionTests: XCTestCase {
         }
 
         if UInt32(cryptStatus) == UInt32(kCCSuccess) {
-            cryptData.removeSubrange(numBytesEncrypted..<cryptData.count)
+            cryptData.removeSubrange(numBytesEncrypted ..< cryptData.count)
         }
 
         XCTAssertEqual(cryptData, plaintext)

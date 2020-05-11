@@ -23,8 +23,8 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWSRSATests: RSACryptoTestCase {
     override func setUp() {
@@ -37,44 +37,44 @@ class JWSRSATests: RSACryptoTestCase {
 
     @available(*, deprecated)
     func testSignAndSerializeRS256() {
-        self.performTestRSASerializationValidationAndDeserialization(algorithm: .RS256)
+        performTestRSASerializationValidationAndDeserialization(algorithm: .RS256)
     }
 
     @available(*, deprecated)
     func testSignAndVerifyRS256WithNonRequiredHeaderParameter() {
-        self.performTestRSASerializationValidationAndDeserialization(algorithm: .RS256, withKid: true)
+        performTestRSASerializationValidationAndDeserialization(algorithm: .RS256, withKid: true)
     }
 
     func testDeserializeFromCompactSerializationRS256() {
-        self.performTestRSADeserialization(algorithm: .RS256, compactSerializedJWS: compactSerializedJWSRS256Const)
+        performTestRSADeserialization(algorithm: .RS256, compactSerializedJWS: compactSerializedJWSRS256Const)
     }
 
     @available(*, deprecated)
     func testSignAndSerializeRS384() {
-        self.performTestRSASerializationValidationAndDeserialization(algorithm: .RS384)
+        performTestRSASerializationValidationAndDeserialization(algorithm: .RS384)
     }
 
     @available(*, deprecated)
     func testSignAndVerifyRS384WithNonRequiredHeaderParameter() {
-        self.performTestRSASerializationValidationAndDeserialization(algorithm: .RS384, withKid: true)
+        performTestRSASerializationValidationAndDeserialization(algorithm: .RS384, withKid: true)
     }
 
     func testDeserializeFromCompactSerializationRS384() {
-        self.performTestRSADeserialization(algorithm: .RS384, compactSerializedJWS: compactSerializedJWSRS384Const)
+        performTestRSADeserialization(algorithm: .RS384, compactSerializedJWS: compactSerializedJWSRS384Const)
     }
 
     @available(*, deprecated)
     func testSignAndSerializeRS512() {
-        self.performTestRSASerializationValidationAndDeserialization(algorithm: .RS512)
+        performTestRSASerializationValidationAndDeserialization(algorithm: .RS512)
     }
 
     @available(*, deprecated)
     func testSignAndVerifyRS512WithNonRequiredHeaderParameter() {
-        self.performTestRSASerializationValidationAndDeserialization(algorithm: .RS512, withKid: true)
+        performTestRSASerializationValidationAndDeserialization(algorithm: .RS512, withKid: true)
     }
 
     func testDeserializeFromCompactSerializationRS512() {
-        self.performTestRSADeserialization(algorithm: .RS512, compactSerializedJWS: compactSerializedJWSRS512Const)
+        performTestRSADeserialization(algorithm: .RS512, compactSerializedJWS: compactSerializedJWSRS512Const)
     }
 
     @available(iOS 11, *)

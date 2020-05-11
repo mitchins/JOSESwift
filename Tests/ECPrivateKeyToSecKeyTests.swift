@@ -22,18 +22,17 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class ECPrivateKeyToSecKeyTests: ECCryptoTestCase {
-
     func testPrivateKeyToSecKey() {
         allTestData.forEach { testData in
             let jwk = try! ECPrivateKey(
-                    crv: testData.expectedCurveType,
-                    x: testData.expectedXCoordinateBase64Url,
-                    y: testData.expectedYCoordinateBase64Url,
-                    privateKey: testData.expectedPrivateBase64Url
+                crv: testData.expectedCurveType,
+                x: testData.expectedXCoordinateBase64Url,
+                y: testData.expectedYCoordinateBase64Url,
+                privateKey: testData.expectedPrivateBase64Url
             )
             let key = try! jwk.converted(to: SecKey.self)
 
@@ -64,5 +63,4 @@ class ECPrivateKeyToSecKeyTests: ECCryptoTestCase {
         }
         XCTAssertThrowsError(try closure())
     }
-
 }

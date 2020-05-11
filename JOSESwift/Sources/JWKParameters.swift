@@ -39,7 +39,7 @@ public enum JWKParameter: String, CodingKey {
 
     static let nonStringParameters: [JWKParameter] = [
         .keyOperations,
-        .X509CertificateChain
+        .X509CertificateChain,
     ]
 }
 
@@ -61,7 +61,7 @@ public enum SymmetricKeyParameter: String, CodingKey {
 /// See [RFC-7518, Section 6.2](https://tools.ietf.org/html/rfc7518#section-6.2) for details.
 public enum ECParameter: String, CodingKey {
     case curve = "crv"
-    case x = "x"
-    case y = "y"
+    case x
+    case y
     case privateKey = "d"
 }

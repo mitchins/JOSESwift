@@ -27,8 +27,8 @@
 //  ---------------------------------------------------------------------------
 //
 
-import Foundation
 import Compression
+import Foundation
 
 struct DeflateCompressor: CompressorProtocol {
     /// Compresses the data using the zlib deflate algorithm.
@@ -87,13 +87,13 @@ private func perform(_ config: Config, source: UnsafePointer<UInt8>, sourceSize:
     guard status != COMPRESSION_STATUS_ERROR else { return nil }
     defer { compression_stream_destroy(&stream) }
 
-    let bufferSize = Swift.max( Swift.min(sourceSize, 64 * 1024), 64)
+    let bufferSize = Swift.max(Swift.min(sourceSize, 64 * 1024), 64)
     let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: bufferSize)
     defer { buffer.deallocate() }
 
-    stream.dst_ptr  = buffer
+    stream.dst_ptr = buffer
     stream.dst_size = bufferSize
-    stream.src_ptr  = source
+    stream.src_ptr = source
     stream.src_size = sourceSize
 
     var res = preload

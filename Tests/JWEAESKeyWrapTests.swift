@@ -21,8 +21,8 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 // swiftlint:disable force_unwrapping
 

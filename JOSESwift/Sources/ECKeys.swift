@@ -32,9 +32,9 @@ import Foundation
 /// To ensure proper JWK JSON encoding, the component data must refer to the unsigned big-endian octet representation
 /// of the component's values, encoded using the minimum amount of octets needed to represent the value.
 public typealias ECPublicKeyComponents = (
-        crv: String,
-        x: Data,
-        y: Data
+    crv: String,
+    x: Data,
+    y: Data
 )
 
 /// The components of an EC private key.
@@ -44,17 +44,16 @@ public typealias ECPublicKeyComponents = (
 /// To ensure proper JWK JSON encoding, the component data must refer to the unsigned big-endian octet representation
 /// of the component's values, encoded using the minimum amount of octets needed to represent the value.
 public typealias ECPrivateKeyComponents = (
-        crv: String,
-        x: Data,
-        y: Data,
-        d: Data
+    crv: String,
+    x: Data,
+    y: Data,
+    d: Data
 )
 
 /// A type that represents an EC public key.
 /// It can be expressed through `ECPublicKeyComponents` meaning it can be converted to such components
 /// and it can be created from such components.
 public protocol ExpressibleAsECPublicKeyComponents {
-
     /// Creates an object that contains the supplied components in the format specified by ANSI X9.63
     ///
     /// - Parameter components: The public key components.
@@ -73,7 +72,6 @@ public protocol ExpressibleAsECPublicKeyComponents {
 /// It can be expressed through `ECPrivateKeyComponents` meaning it can be converted to such components
 /// and it can be created from such components.
 public protocol ExpressibleAsECPrivateKeyComponents {
-
     /// Creates an object that contains the supplied components in the format specified by ANSI X9.63
     ///
     /// - Parameter components: The private key components.
@@ -121,19 +119,19 @@ public struct ECPublicKey: JWK {
     ///        as specified in [RFC-7518, Section 2](https://tools.ietf.org/html/rfc7518#section-2).
     ///   - parameters: Additional JWK parameters.
     public init(crv: ECCurveType, x: String, y: String, additionalParameters parameters: [String: String] = [:]) {
-        self.keyType = .EC
+        keyType = .EC
         self.crv = crv
         self.x = x
         self.y = y
 
         self.parameters = parameters.merging(
-                [
-                    JWKParameter.keyType.rawValue: self.keyType.rawValue,
-                    ECParameter.curve.rawValue: self.crv.rawValue,
-                    ECParameter.x.rawValue: self.x,
-                    ECParameter.y.rawValue: self.y
-                ],
-                uniquingKeysWith: { (_, new) in new }
+            [
+                JWKParameter.keyType.rawValue: keyType.rawValue,
+                ECParameter.curve.rawValue: self.crv.rawValue,
+                ECParameter.x.rawValue: self.x,
+                ECParameter.y.rawValue: self.y,
+            ],
+            uniquingKeysWith: { _, new in new }
         )
     }
 
@@ -156,10 +154,10 @@ public struct ECPublicKey: JWK {
         // to represent their value as required.
         // Therefore Base64url(component) == Base64urlUInt(component).
         self.init(
-                crv: curve,
-                x: components.x.base64URLEncodedString(),
-                y: components.y.base64URLEncodedString(),
-                additionalParameters: parameters
+            crv: curve,
+            x: components.x.base64URLEncodedString(),
+            y: components.y.base64URLEncodedString(),
+            additionalParameters: parameters
         )
     }
 
@@ -176,7 +174,7 @@ public struct ECPublicKey: JWK {
     /// - Parameter type: The type to convert the JWK to.
     /// - Returns: The type initialized with the key data.
     /// - Throws: A `JOSESwiftError` indicating any errors.
-    public func converted<T>(to type: T.Type) throws -> T where T: ExpressibleAsECPublicKeyComponents {
+    public func converted<T>(to _: T.Type) throws -> T where T: ExpressibleAsECPublicKeyComponents {
         guard let x = Data(base64URLEncoded: self.x) else {
             throw JOSESwiftError.xNotBase64URLUIntEncoded
         }
@@ -185,7 +183,7 @@ public struct ECPublicKey: JWK {
             throw JOSESwiftError.yNotBase64URLUIntEncoded
         }
 
-        return try T.representing(ecPublicKeyComponents: (self.crv.rawValue, x, y))
+        return try T.representing(ecPublicKeyComponents: (crv.rawValue, x, y))
     }
 }
 
@@ -227,7 +225,7 @@ public struct ECPrivateKey: JWK {
     ///                 as specified in [RFC-7518, Section 2](https://tools.ietf.org/html/rfc7518#section-2).
     ///   - parameters: Additional JWK parameters.
     public init(crv: String, x: String, y: String, privateKey: String, additionalParameters parameters: [String: String] = [:]) throws {
-        self.keyType = .EC
+        keyType = .EC
 
         guard let curve = ECCurveType(rawValue: crv) else {
             throw JOSESwiftError.invalidCurvePointOctetLength
@@ -239,14 +237,14 @@ public struct ECPrivateKey: JWK {
         self.privateKey = privateKey
 
         self.parameters = parameters.merging(
-                [
-                    JWKParameter.keyType.rawValue: self.keyType.rawValue,
-                    ECParameter.curve.rawValue: self.crv.rawValue,
-                    ECParameter.x.rawValue: self.x,
-                    ECParameter.y.rawValue: self.y,
-                    ECParameter.privateKey.rawValue: self.privateKey
-                ],
-                uniquingKeysWith: { (_, new) in new }
+            [
+                JWKParameter.keyType.rawValue: keyType.rawValue,
+                ECParameter.curve.rawValue: self.crv.rawValue,
+                ECParameter.x.rawValue: self.x,
+                ECParameter.y.rawValue: self.y,
+                ECParameter.privateKey.rawValue: self.privateKey,
+            ],
+            uniquingKeysWith: { _, new in new }
         )
     }
 
@@ -265,11 +263,11 @@ public struct ECPrivateKey: JWK {
         // to represent their value as required.
         // Therefore Base64url(component) == Base64urlUInt(component).
         try self.init(
-                crv: crv,
-                x: x.base64URLEncodedString(),
-                y: y.base64URLEncodedString(),
-                privateKey: privateKey.base64URLEncodedString(),
-                additionalParameters: parameters
+            crv: crv,
+            x: x.base64URLEncodedString(),
+            y: y.base64URLEncodedString(),
+            privateKey: privateKey.base64URLEncodedString(),
+            additionalParameters: parameters
         )
     }
 
@@ -286,7 +284,7 @@ public struct ECPrivateKey: JWK {
     /// - Parameter type: The type to convert the JWK to.
     /// - Returns: The type initialized with the key data.
     /// - Throws: A `JOSESwiftError` indicating any errors.
-    public func converted<T>(to type: T.Type) throws -> T where T: ExpressibleAsECPrivateKeyComponents {
+    public func converted<T>(to _: T.Type) throws -> T where T: ExpressibleAsECPrivateKeyComponents {
         guard let x = Data(base64URLEncoded: self.x) else {
             throw JOSESwiftError.xNotBase64URLUIntEncoded
         }
@@ -299,7 +297,7 @@ public struct ECPrivateKey: JWK {
             throw JOSESwiftError.privateKeyNotBase64URLUIntEncoded
         }
 
-        return try T.representing(ecPrivateKeyComponents: (self.crv.rawValue, x, y, privateKey))
+        return try T.representing(ecPrivateKeyComponents: (crv.rawValue, x, y, privateKey))
     }
 }
 

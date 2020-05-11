@@ -23,19 +23,18 @@
 //  ---------------------------------------------------------------------------
 //
 
-import XCTest
 @testable import JOSESwift
+import XCTest
 
 class JWECompressionTests: RSACryptoTestCase {
-
     let data = "So Secret! 🔥🌵".data(using: .utf8)!
     let compressedDataBase64URLEncodedString = "C85XCE5NLkotUVT4MH_K0g_ze7YCAA"
 
     let jweSerializedNotSupportedZipHeaderValue = """
-        eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiemlwIjoiR1pJUCJ9..I62W\
-        KaitlHoJ-Kz3zvQ-Tw.Tu9hk_AMRMRTc8ggsoWifFS979Nz8xt-xx4FpF6waeE.w7c8eAG\
-        XpUD3tNskLzdl17s4vsCCSUwe5bRFpJg1kUs
-        """
+    eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiemlwIjoiR1pJUCJ9..I62W\
+    KaitlHoJ-Kz3zvQ-Tw.Tu9hk_AMRMRTc8ggsoWifFS979Nz8xt-xx4FpF6waeE.w7c8eAG\
+    XpUD3tNskLzdl17s4vsCCSUwe5bRFpJg1kUs
+    """
 
     @available(*, deprecated)
     func testRoundtripWithLegacyDecrypter() {
@@ -123,9 +122,9 @@ class JWECompressionTests: RSACryptoTestCase {
     func testNoneCompressor() throws {
         let noneCompressor = try CompressorFactory.makeCompressor(algorithm: CompressionAlgorithm.NONE)
         XCTAssert(noneCompressor is NoneCompressor)
-        //test none compress
+        // test none compress
         XCTAssertEqual(try noneCompressor.compress(data: data), data)
-        //test none decompress
+        // test none decompress
         XCTAssertEqual(try noneCompressor.decompress(data: data), data)
     }
 
@@ -136,7 +135,7 @@ class JWECompressionTests: RSACryptoTestCase {
         var compressedData = try deflateCompressor.compress(data: data)
         XCTAssertEqual(compressedData.base64URLEncodedString(), compressedDataBase64URLEncodedString)
 
-        compressedData = Data.init(base64URLEncoded: compressedDataBase64URLEncodedString)!
+        compressedData = Data(base64URLEncoded: compressedDataBase64URLEncodedString)!
         XCTAssertEqual(try deflateCompressor.decompress(data: compressedData), data)
     }
 }

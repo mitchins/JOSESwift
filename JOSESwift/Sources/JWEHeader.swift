@@ -70,7 +70,7 @@ public struct JWEHeader: JOSEHeader {
     ) {
         let parameters = [
             "alg": keyManagementAlgorithm.rawValue,
-            "enc": contentEncryptionAlgorithm.rawValue
+            "enc": contentEncryptionAlgorithm.rawValue,
         ]
 
         // Forcing the try is ok here, since [String: String] can be converted to JSON.
@@ -96,7 +96,7 @@ public extension JWEHeader {
         // Forced cast is ok here since we checked both that "alg" exists
         // and holds a `String` value in `init(parameters:)`.
         // swiftlint:disable:next force_cast
-        return KeyManagementAlgorithm(rawValue: parameters["alg"] as! String)
+        KeyManagementAlgorithm(rawValue: parameters["alg"] as! String)
     }
 
     /// The encryption algorithm used to perform authenticated encryption of the plaintext
@@ -105,8 +105,9 @@ public extension JWEHeader {
         // Forced cast is ok here since we checked both that "enc" exists
         // and holds a `String` value in `init(parameters:)`.
         // swiftlint:disable:next force_cast
-        return ContentEncryptionAlgorithm(rawValue: parameters["enc"] as! String)
+        ContentEncryptionAlgorithm(rawValue: parameters["enc"] as! String)
     }
+
     /// The compression algorithm applied to the plaintext before encryption. If no compression is applied, the `.NONE` algorithm is returned.
     var compressionAlgorithm: CompressionAlgorithm? {
         guard let compressionAlgorithm = parameters["zip"] as? String else {
@@ -150,7 +151,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
             parameters["jwk"] = newValue
         }
         get {
-            return parameters["jwk"] as? String
+            parameters["jwk"] as? String
         }
     }
 
@@ -160,7 +161,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
             parameters["kid"] = newValue
         }
         get {
-            return parameters["kid"] as? String
+            parameters["kid"] as? String
         }
     }
 
@@ -185,7 +186,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
             parameters["x5c"] = newValue
         }
         get {
-            return parameters["x5c"] as? [String]
+            parameters["x5c"] as? [String]
         }
     }
 
@@ -196,7 +197,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
             parameters["x5t"] = newValue
         }
         get {
-            return parameters["x5t"] as? String
+            parameters["x5t"] as? String
         }
     }
 
@@ -207,7 +208,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
             parameters["x5tS256"] = newValue
         }
         get {
-            return parameters["x5tS256"] as? String
+            parameters["x5tS256"] as? String
         }
     }
 
@@ -217,7 +218,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
             parameters["typ"] = newValue
         }
         get {
-            return parameters["typ"] as? String
+            parameters["typ"] as? String
         }
     }
 
@@ -227,7 +228,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
             parameters["cty"] = newValue
         }
         get {
-            return parameters["cty"] as? String
+            parameters["cty"] as? String
         }
     }
 
@@ -237,7 +238,7 @@ extension JWEHeader: CommonHeaderParameterSpace {
             parameters["crit"] = newValue
         }
         get {
-            return parameters["crit"] as? [String]
+            parameters["crit"] as? [String]
         }
     }
 }
@@ -251,7 +252,7 @@ public extension JWEHeader {
         // Forced cast is ok here since we checked both that "alg" exists
         // and holds a `String` value in `init(parameters:)`.
         // swiftlint:disable:next force_cast
-        return AsymmetricKeyAlgorithm(rawValue: parameters["alg"] as! String)
+        AsymmetricKeyAlgorithm(rawValue: parameters["alg"] as! String)
     }
 
     /// The encryption algorithm used to perform authenticated encryption of the plaintext
@@ -261,7 +262,7 @@ public extension JWEHeader {
         // Forced cast is ok here since we checked both that "enc" exists
         // and holds a `String` value in `init(parameters:)`.
         // swiftlint:disable:next force_cast
-        return SymmetricKeyAlgorithm(rawValue: parameters["enc"] as! String)
+        SymmetricKeyAlgorithm(rawValue: parameters["enc"] as! String)
     }
 
     @available(*, deprecated, message: "Use `init(keyManagementAlgorithm:contentEncryptionAlgorithm` instead")

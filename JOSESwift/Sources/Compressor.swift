@@ -40,10 +40,11 @@ protocol CompressorProtocol {
 /// Used for having the JWE implementation more readable.
 struct NoneCompressor: CompressorProtocol {
     func compress(data: Data) -> Data {
-        return data
+        data
     }
+
     func decompress(data: Data) -> Data {
-        return data
+        data
     }
 }
 
