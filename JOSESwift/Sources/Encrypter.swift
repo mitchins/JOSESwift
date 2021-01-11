@@ -22,6 +22,7 @@
 //
 
 import Foundation
+import CryptoSwift
 
 // Todo [#214]: Move generic type to initializer in next major release.
 public struct Encrypter<KeyType> {

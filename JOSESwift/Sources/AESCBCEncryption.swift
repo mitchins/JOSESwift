@@ -39,7 +39,7 @@ struct AESCBCEncryption {
         let hmacKey = keys.hmacKey
         let encryptionKey = keys.encryptionKey
 
-        let ciphertext = try AES.encrypt(plaintext, with: encryptionKey, using: contentEncryptionAlgorithm, and: iv)
+        let ciphertext = try AESCrypt.encrypt(plaintext, with: encryptionKey, using: contentEncryptionAlgorithm, and: iv)
 
         // Put together the input data for the HMAC. It consists of A || IV || E || AL.
         var concatData = additionalAuthenticatedData
@@ -92,7 +92,7 @@ struct AESCBCEncryption {
 
         // Decrypt the cipher text with a symmetric decryption key, a symmetric algorithm and the initialization vector,
         // return the plaintext if no error occured.
-        let plaintext = try AES.decrypt(
+        let plaintext = try AESCrypt.decrypt(
             cipherText: ciphertext,
             with: decryptionKey,
             using: contentEncryptionAlgorithm,

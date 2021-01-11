@@ -109,6 +109,10 @@ extension Data {
 
         return Data(dataLengthBytes)
     }
+    
+    func hexEncodedString() -> String {
+        return map { String(format: "%02hhx", $0) }.joined()
+    }
 }
 
 extension Data: DataConvertible {

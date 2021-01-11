@@ -23,6 +23,7 @@
 
 import Foundation
 import CommonCrypto
+import CryptoSwift
 
 internal enum AESError: Error {
     case keyLengthNotSatisfied
@@ -40,6 +41,8 @@ fileprivate extension ContentEncryptionAlgorithm {
 
         case .A128CBCHS256:
             return CCAlgorithm(kCCAlgorithmAES)
+        case .AES256GCM:
+             return CCAlgorithm(kCCAlgorithmAES)
         }
     }
 
@@ -50,6 +53,8 @@ fileprivate extension ContentEncryptionAlgorithm {
 
         case .A128CBCHS256:
             return key.count == kCCKeySizeAES128
+        case .AES256GCM:
+            return key.count == kCCKeySizeAES256
         }
     }
 }
@@ -69,7 +74,7 @@ fileprivate extension KeyManagementAlgorithm {
     }
 }
 
-enum AES {
+enum AESCrypt {
     typealias KeyType = Data
 
     /// Encrypts a plain text using a given `AES` algorithm, the corresponding symmetric key and an initialization vector.
@@ -109,6 +114,15 @@ enum AES {
             }
 
             return ciphertext
+            
+        case .AES256GCM:
+                let ivkey = initializationVector.hexEncodedString()
+                let key = encryptionKey.hexEncodedString()
+                let gcm = GCM(iv: [UInt8](hex: ivkey), mode: .combined)
+                let aes = try! AES(key: [UInt8](hex: key), blockMode: gcm, padding: .noPadding)
+                let cryptText = try! aes.encrypt(Array(plaintext))
+                return Data(cryptText)
+            
         }
     }
 
@@ -128,7 +142,7 @@ enum AES {
         and initializationVector: Data
     ) throws -> Data {
         switch algorithm {
-        case .A256CBCHS512, .A128CBCHS256:
+        case .A256CBCHS512, .A128CBCHS256, .AES256GCM:
             guard algorithm.checkAESKeyLength(for: decryptionKey) else {
                 throw AESError.keyLengthNotSatisfied
             }
@@ -211,7 +225,7 @@ enum AES {
     }
 }
 
-extension AES {
+extension AESCrypt {
     // swiftlint:disable:next function_parameter_count
     private static func ccAESCBCCrypt(
         operation: CCOperation,
@@ -266,7 +280,7 @@ extension AES {
     }
 }
 
-extension AES {
+extension AESCrypt {
     private static func ccAESKeyWrap(
         rawKey: Data,
         keyEncryptionKey: Data,
